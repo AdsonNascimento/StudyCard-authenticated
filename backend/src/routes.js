@@ -7,7 +7,7 @@ const routes = new Router()
 routes.get('/hello', HelloController.index)
 
 //RESTFull Users
-routes.get('/user', UserController.index)
+routes.get('/user', UserController.list)
 routes.get('/user/:id', UserController.show)
 
 routes.post('/user', UserController.create)
