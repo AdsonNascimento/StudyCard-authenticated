@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 function Login() {
   const { login } = useContext(AuthContext);
 
-  const [email, setEmail] = useState('teste@teste.com');
-  const [password, setPassword] = useState('1234');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     
@@ -32,7 +32,6 @@ function Login() {
             type="email"
             required
             placeholder="e-mail"
-            autoComplete='off'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -45,7 +44,6 @@ function Login() {
             type="password"
             required
             placeholder="senha"
-            autoComplete='off'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

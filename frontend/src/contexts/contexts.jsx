@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import { api, createSession } from "../services/api"
 
 export const AuthContext = createContext();
 
@@ -7,6 +8,13 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        const recoveredUser = sessionStorage.getItem('authenticated');
+        const token = sessionStorage.getItem('token');
+
+        if (recoveredUser) {
+            setUser(JSON.parse(recoveredUser))
+            api.defaults.headers.Authorization = `Bearer ${token}`
+        }
 
         setTimeout(() => {
             setLoading(false);
@@ -14,17 +22,32 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async (email, password) => {
-        const loggedUser = {email, password}
+        const response = await createSession(email, password)
 
-        if (password === "1234") {
-            sessionStorage.setItem('authenticated', JSON.stringify(loggedUser))
-            window.location.href = '/home'
-            
+        if (response.status === 401) {
+            sessionStorage.removeItem('authenticated')
+            sessionStorage.removeItem('token')
         }
+
+        console.log(response.data)
+
+        const loggedUser = response.data.user
+        const token = response.data.token
+
+
+        sessionStorage.setItem('authenticated', JSON.stringify(loggedUser))
+        sessionStorage.setItem('token', JSON.stringify(token))
+
+        api.defaults.headers.Authorization = `Bearer ${token}`
+
+        window.location.href = '/home'
     };
 
     const logout = () => {
         sessionStorage.removeItem('authenticated')
+        sessionStorage.removeItem('token')
+
+        api.defaults.headers.Authorization = null
 
         window.location.href = '/login'
     };
