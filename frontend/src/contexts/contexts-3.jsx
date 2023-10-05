@@ -17,14 +17,14 @@ export const AuthProvider = ({ children }) => {
         const loggedUser = {email, password}
 
         if (password === "1234") {
-            sessionStorage.setItem('authenticated', JSON.stringify(loggedUser))
+            localStorage.setItem('authenticated', JSON.stringify(loggedUser))
             window.location.href = '/home'
             
         }
     };
 
     const logout = () => {
-        sessionStorage.removeItem('authenticated')
+        localStorage.removeItem('authenticated')
 
         window.location.href = '/login'
     };

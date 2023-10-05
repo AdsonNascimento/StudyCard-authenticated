@@ -16,7 +16,7 @@ const Private = ({ children }) => {
     return <div>carregando...</div>
   }
 
-  if (sessionStorage.getItem("authenticated") === null) {
+  if (localStorage.getItem("authenticated") === null) {
     return window.location.href = '/login';
   }
 

@@ -8,25 +8,23 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const recoveredUser = sessionStorage.getItem('authenticated');
-        const token = sessionStorage.getItem('token');
+        const recoveredUser = localStorage.getItem('authenticated');
+        const token = localStorage.getItem('token');
 
         if (recoveredUser) {
             setUser(JSON.parse(recoveredUser))
             api.defaults.headers.Authorization = `Bearer ${token}`
         }
 
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000);
+        setLoading(false);
     }, [])
 
     const login = async (email, password) => {
         const response = await createSession(email, password)
 
         if (response.status === 401) {
-            sessionStorage.removeItem('authenticated')
-            sessionStorage.removeItem('token')
+            localStorage.removeItem('authenticated')
+            localStorage.removeItem('token')
         }
 
         console.log(response.data)
@@ -35,8 +33,8 @@ export const AuthProvider = ({ children }) => {
         const token = response.data.token
 
 
-        sessionStorage.setItem('authenticated', JSON.stringify(loggedUser))
-        sessionStorage.setItem('token', JSON.stringify(token))
+        localStorage.setItem('authenticated', JSON.stringify(loggedUser))
+        localStorage.setItem('token', JSON.stringify(token))
 
         api.defaults.headers.Authorization = `Bearer ${token}`
 
@@ -44,8 +42,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        sessionStorage.removeItem('authenticated')
-        sessionStorage.removeItem('token')
+        localStorage.removeItem('authenticated')
+        localStorage.removeItem('token')
 
         api.defaults.headers.Authorization = null
 
