@@ -16,15 +16,6 @@ class SessionController {
             return res.status(401).json({ error: "Authentication failure." })
         }
 
-        console.log(`
-            Password db: 
-                ${user[0].password}
-                ${typeof(user[0].password)}
-            Password client: 
-                ${password}
-                ${typeof(password)}
-        `)
-
         if (!checkPassword(user[0].password, password)) {
             console.error("Falha na autenticação, senhas não coincidem.")
             return res.status(401).json({ error: "Authentication failure." })
