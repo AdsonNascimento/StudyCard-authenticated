@@ -1,7 +1,7 @@
 import { sql } from "../database/db.js"
 import { randomUUID } from "node:crypto"
 import { createPasswordHash } from "../services/auth.js"
-import isValidUUID from "../services/validUUID.js";
+import { isValidUUID } from "../services/isValidUUID.js";
 
 class UserController {
     async list(req, res) {
@@ -91,24 +91,26 @@ class UserController {
     }
 
     async delete(req, res) {
-        const { id } = req.params;
+        try {
+            const { id } = req.params;
 
-        if (!isValidUUID(id)) {
-            return res.status(400).json({ error: "ID inválido." });
+            if (!isValidUUID(id)) {
+                return res.status(400).json({ error: "ID inválido." });
+            }
+
+            const user = await sql`SELECT * FROM tb_user WHERE id = ${id}`
+
+            if (user.length === 0) {
+                return res.status(404).json({ message: "Usuário não encontrado." })
+            }
+
+            await sql`DELETE FROM tb_user WHERE id = ${id}`
+
+            return res.status(204).send()
+        } catch (err) {
+            console.error("Erro ao atualizar usuário: ", err);
+            return res.status(500).json({ error: "Internal server error." })
         }
-
-        const user = await sql`SELECT * FROM tb_user WHERE id = ${id}`
-
-        if (user.length === 0) {
-            return res.status(404).json({ message: "Usuário não encontrado." })
-        }
-
-        await sql`DELETE FROM tb_user WHERE id = ${id}`
-
-        return res.status(204).send()
-    } catch (err) {
-        console.error("Erro ao atualizar usuário: ", err);
-        return res.status(500).json({ error: "Internal server error." })
     }
 }
 
