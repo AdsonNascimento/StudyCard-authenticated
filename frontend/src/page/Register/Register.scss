@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-#login-page {
+#register-page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +88,7 @@
 }
 
 @media (max-width: 400px) {
-  #login-page {
+  #register-page {
     section {
       width: 100vw;
       height: 100%;
@@ -121,7 +121,7 @@
 }
 
 @media (max-width: 270px) {
-  #login-page {
+  #register-page {
     overflow-y: scroll;
   }
 }

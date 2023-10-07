@@ -1,7 +1,7 @@
 import { sql } from "../database/db.js"
 import { randomUUID } from "node:crypto"
 import { createPasswordHash } from "../services/auth.js"
-import { isValidUUID } from "../services/isValidUUID.js";
+import { isValidUUID } from "../tools/isValidUUID.js";
 
 class UserController {
     async list(req, res) {

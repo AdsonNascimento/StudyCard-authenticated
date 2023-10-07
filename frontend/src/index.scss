@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+$dark-blue: #011627;
+$off-white: #fdfffc;
+$green: #2ec4b5;
+$blue: #1e96fc;
+$red: #e71d36;
+
+$green-soft: rgba(46, 196, 181, 0.1);
+$blue-soft: rgba(30, 148, 252, 0.1);
+$blue-soft-2: rgba(30, 148, 252, 0.2);
+
+html {
+  /*==== cores bases ====*/
+  --dark-blue: #{$dark-blue};
+  --off-white: #{$off-white};
+  --green: #{$green};
+  --blue: #{$blue};
+  --red: #{$red};
+
+  --green-soft: #{$green-soft};
+  --blue-soft: #{$blue-soft};
+
+  /*==== fonts ====*/
+  font-family: 'Poppins', sans-serif;
+
+  /*==== jump of the cat ====*/
+  font-size: 62.5%;
+  /* tamanho padrão do navegador vira 10px */
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--off-white);
+
+  .default-input {
+    width: 100%;
+    height: 3rem;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0px 0px 1px $blue;
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:focus,
+    &:hover {
+      outline: none;
+      box-shadow: 0px 0px 2px $blue;
+    }
+  }
+}

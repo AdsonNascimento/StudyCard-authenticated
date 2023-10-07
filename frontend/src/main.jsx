@@ -6,7 +6,7 @@ import App from './App.jsx';
 import Register from './page/Register/Register.jsx';
 import Login from './page/Login/Login.jsx';
 import Home from './page/Home/Home.jsx';
-import './index.css';
+import './index.scss';
 import { AuthProvider, AuthContext } from './contexts/contexts.jsx';
 
 const Private = ({ children }) => {

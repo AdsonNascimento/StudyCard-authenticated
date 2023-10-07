@@ -27,9 +27,8 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('token')
         }
 
-        const loggedUser = response.data.user
+        const loggedUser = response.data.userInfo
         const token = response.data.token
-
 
         localStorage.setItem('authenticated', JSON.stringify(loggedUser))
         localStorage.setItem('token', JSON.stringify(token))

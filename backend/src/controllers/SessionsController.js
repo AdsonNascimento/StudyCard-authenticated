@@ -8,7 +8,7 @@ class SessionController {
         try {
             const { JWT_SECRET } = process.env
             const { email, password } = req.body
-            const expiresJwtToken = 60 * 60 * 24 * 3 // 3 days
+            const expiresIn = 60 * 60 * 24 * 3 // 3 days
 
             const userInfo = await sql`SELECT * FROM tb_user WHERE email = ${email}`
 
@@ -30,7 +30,7 @@ class SessionController {
                     email
                 },
                 token: jwt.sign({ id }, JWT_SECRET, {
-                    expiresJwtToken
+                    expiresIn
                 })
             })
         } catch (err) {

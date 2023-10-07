@@ -12,45 +12,43 @@ function Login() {
   const handleSubmit = (e) => {
     
     login(email, password);
-    e.preventDefault(); // Impede a recarga da página
+    e.preventDefault();
   }
 
   return (
-    <main>
-      <h1 lang="en">Study<span>Card</span></h1>
-
-      <form id="login" action="" method="post" onSubmit={handleSubmit}>
-
-        <h2>login:</h2>
-
-        <div className="login-info">
-          <label htmlFor="user">E-mail</label>
-          <input
-            id="user"
-            type="email"
-            required
-            placeholder="e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="login-info">
-          <label htmlFor="password">Senha:</label>
-          <input
-            id="password"
-            type="password"
-            required
-            placeholder="senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">entrar</button>
-      </form>
-
-      <Link to="/register">cadastre-se</Link>
+    <main id='login-page'>
+      <section>
+        <h1 lang="en">Study<span>Card</span></h1>
+        <form id="login" action="" method="post" onSubmit={handleSubmit}>
+          <h2>login:</h2>
+          <div className="login-info">
+            <label htmlFor="user">E-mail</label>
+            <input
+              id="user"
+              className='default-input'
+              type="email"
+              required
+              placeholder="e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="login-info">
+            <label htmlFor="password">Senha:</label>
+            <input
+              id="password"
+              className='default-input'
+              type="password"
+              required
+              placeholder="senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit">entrar</button>
+        </form>
+        <Link to="/register">cadastre-se</Link>
+      </section>
     </main>
   )
 }
