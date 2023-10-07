@@ -7,7 +7,10 @@ import { isValidPassword } from "../tools/isValidPassword.js";
 class UserController {
     async list(req, res) {
         try {
-            const users = await sql`SELECT * FROM tb_user`;
+            const users = await sql`
+                SELECT id, email, name, birthday, user_created
+                FROM tb_user;
+            `;
             return res.json(users)
 
         } catch (err) {
@@ -65,7 +68,10 @@ class UserController {
                 return res.status(500).json({ error: "Erro ao inserir o usuário." });
             }
 
-            return res.status(201).json(result[0]);
+            return res.status(201).json({
+                name: result[0].name,
+                email: result[0].email
+            });
 
         } catch (err) {
             console.error("erro ao criar usuario no banco de dados", err)

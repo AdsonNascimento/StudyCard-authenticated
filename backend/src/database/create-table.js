@@ -10,7 +10,8 @@ async function criarTabela() {
         password VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         birthday DATE NOT NULL,
-        user_created TIMESTAMP DEFAULT NOW() NOT NULL
+        user_created TIMESTAMP DEFAULT NOW() NOT NULL,
+        master BOOLEAN NOT NULL DEFAULT false
       );
     `;
     console.log('tb_user criada! 😍');
