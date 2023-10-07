@@ -6,6 +6,8 @@ import "./Register.scss"
 import strongPassword from '../../tools/strongPassword.js';
 
 export default function Register() {
+    const [name, setName] = useState('');
+    const [birthday, setBirthday] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
@@ -24,8 +26,16 @@ export default function Register() {
         }
 
         try {
-            await createUser(email, password, confirmedPassword);
+            await createUser(
+                name,
+                birthday,
+                email, 
+                password, 
+                confirmedPassword
+            );
+
             alert("Usuário criado com sucesso!");
+
             await login(email, password);
         } catch (error) {
             console.error(error.message)
@@ -39,11 +49,32 @@ export default function Register() {
             <section>
                 <h1 lang="en">Study<span>Card</span></h1>
                 <form id="register" action="" method="post" onSubmit={handleSubmit}>
-                    <h2>cadastre-se:</h2>
+                    <h2>criar conta:</h2>
                     <div className="login-info">
-                        <label htmlFor="user">seu e-mail</label>
+                        <label htmlFor="user">Nome</label>
                         <input
-                            id="user"
+                            className='default-input'
+                            type="text"
+                            required
+                            placeholder="nome"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className="login-info">
+                        <label htmlFor="user">Data de nascimento</label>
+                        <input
+                            className='default-input'
+                            type="date"
+                            required
+                            placeholder="data de nascimento"
+                            value={birthday}
+                            onChange={(e) => setBirthday(e.target.value)}
+                        />
+                    </div>
+                    <div className="login-info">
+                        <label htmlFor="user">Seu e-mail</label>
+                        <input
                             className='default-input'
                             type="email"
                             required
@@ -55,7 +86,6 @@ export default function Register() {
                     <div className="login-info">
                         <label htmlFor="password">Senha:</label>
                         <input
-                            id="password"
                             className='default-input'
                             type="password"
                             required
@@ -67,7 +97,6 @@ export default function Register() {
                     <div className="login-info">
                         <label htmlFor="check-password">Confirme sua senha:</label>
                         <input
-                            id="check-password"
                             className='default-input'
                             type="password"
                             required
