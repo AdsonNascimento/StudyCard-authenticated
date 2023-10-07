@@ -2,6 +2,7 @@ import { sql } from "../database/db.js"
 import { randomUUID } from "node:crypto"
 import { createPasswordHash } from "../services/auth.js"
 import { isValidUUID } from "../tools/isValidUUID.js";
+import { isValidPassword } from "../tools/isValidPassword.js";
 
 class UserController {
     async list(req, res) {
@@ -38,7 +39,11 @@ class UserController {
 
     async create(req, res) {
         try {
-            const { email, password } = req.body
+            const { email, password, confirmedPassword } = req.body
+
+            if (!isValidPassword(password, confirmedPassword)) {
+                return res.status(400).json({ error: "Password invalid." });
+            }
 
             const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`;
 

@@ -1,7 +1,7 @@
 export function strongPassword(password) {
     if (typeof password !== 'string') {
         console.error("Input não é uma string");
-        return false;
+        return new Error;
     }
 
     const patternStrongPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/
