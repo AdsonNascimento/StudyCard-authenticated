@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/contexts.jsx';
 
+
 export default function Home() {
     const { logout } = useContext(AuthContext);
 
