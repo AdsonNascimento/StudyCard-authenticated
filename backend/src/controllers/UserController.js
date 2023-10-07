@@ -27,7 +27,10 @@ class UserController {
                 return res.status(400).json({ error: "ID inválido." });
             }
 
-            const user = await sql`SELECT * FROM tb_user WHERE id = ${id}`
+            const user = await sql`
+                SELECT id, email, name, birthday, user_created
+                FROM tb_user WHERE id = ${id};
+            `
 
             if (user.length === 0) {
                 return res.status(404).json({ message: "Usuário não encontrado." })
