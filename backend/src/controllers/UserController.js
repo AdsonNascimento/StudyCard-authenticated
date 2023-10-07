@@ -5,7 +5,7 @@ import { isValidUUID } from "../tools/isValidUUID.js";
 import { isValidPassword } from "../tools/isValidPassword.js";
 
 class UserController {
-    async list(req, res) {
+    async list(req, res) { //metodo ultilizado apenas em testes
         try {
             const users = await sql`
                 SELECT id, email, name, birthday, user_created

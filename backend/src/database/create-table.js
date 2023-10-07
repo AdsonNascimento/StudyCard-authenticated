@@ -1,9 +1,8 @@
 import { sql } from "./db.js";
 
-async function criarTabela() {
-  try {
-    // Cria a tabela tb_user no banco de dados
-    await sql`
+async function criarTabelas() {
+    try {
+      await sql`
       CREATE TABLE tb_user (
         id UUID PRIMARY KEY NOT NULL,
         email VARCHAR(255) NOT NULL,
@@ -14,20 +13,64 @@ async function criarTabela() {
         master BOOLEAN NOT NULL DEFAULT false
       );
     `;
-    console.log('tb_user criada! 😍');
+      console.log('CREATE TABLE');
 
-    // Garante que não pode haver dois emails iguais na coluna de emails
-    await sql`
+      await sql`
       CREATE UNIQUE INDEX idx_email_unique ON tb_user (email);
     `;
-    console.log('Índice na coluna email criado! 🙌');
+      console.log('Índice na coluna email criado! 🙌');
+
+      console.log('tb_user criada! 😍');
+    } catch (error) {
+      console.error('Erro ao criar tb_user:', error);
+    }
     
-    // Encerra a execução após a conclusão de todas as chamadas
-    return console.log('Todas as operações concluídas.');
+  try {
+    await sql`
+      CREATE TABLE tb_discipline (
+        id SERIAL PRIMARY KEY,
+        user_id UUID REFERENCES tb_user(id),
+        discipline VARCHAR(255) NOT NULL,
+        discipline_created TIMESTAMPTZ DEFAULT NOW() NOT NULL
+      );
+    `;
+    console.log('tb_discipline criada! 😍');
   } catch (error) {
-    return console.error('Erro:', error);
+    console.error('Erro ao criar tb_discipline:', error);
+  }
+  
+  try {
+    await sql`
+      CREATE TABLE tb_card (
+        id SERIAL PRIMARY KEY,
+        id_discipline INT REFERENCES tb_discipline(id),
+        card_created TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+        question TEXT,
+        answers JSON,
+        initial_difficulty INT,
+        last_interaction TIMESTAMPTZ,
+        current_difficulty INT,
+        result BOOLEAN
+      );    
+    `;
+    console.log('tb_card criada! 😍');
+  } catch (error) {
+    console.error('Erro ao criar tb_card:', error);
+  }
+  
+  try {
+    await sql`
+      CREATE TABLE tb_card_history (
+        id SERIAL PRIMARY KEY,
+        id_card INT REFERENCES tb_card(id),
+        id_discipline INT REFERENCES tb_discipline(id),
+        data JSON
+      );       
+    `;
+    console.log('tb_card_history! 😍');
+  } catch (error) {
+    console.error('Erro ao criar tb_card_history:', error);
   }
 }
 
-// Chama a função assíncrona para iniciar o processo
-criarTabela();
+criarTabelas();
