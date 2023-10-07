@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import routes from "./routes.js"
+import "dotenv/config"
 
 class App {
     constructor() {
@@ -26,4 +27,6 @@ class App {
 }
 
 const app = new App()
-app.start(5000)
+
+const { PORT } = process.env
+app.start(PORT)
