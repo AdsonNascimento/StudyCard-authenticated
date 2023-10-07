@@ -27,8 +27,6 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('token')
         }
 
-        console.log(response.data)
-
         const loggedUser = response.data.user
         const token = response.data.token
 

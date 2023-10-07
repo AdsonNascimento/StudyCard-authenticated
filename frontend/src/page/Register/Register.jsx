@@ -65,9 +65,9 @@ export default function Register() {
                 </div>
 
                 <div className="login-info">
-                    <label htmlFor="password-confirm">Confirme sua senha:</label>
+                    <label htmlFor="check-password">Confirme sua senha:</label>
                     <input
-                        id="password-confirm"
+                        id="check-password"
                         type="password"
                         required
                         placeholder="confirme sua senha"

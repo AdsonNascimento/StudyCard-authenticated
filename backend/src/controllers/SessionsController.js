@@ -1,37 +1,42 @@
+import { sql } from "../database/db.js"
+import { checkPassword } from "../services/auth.js"
+import jwt from "jsonwebtoken"
 import "dotenv/config"
-import jwt from "jsonwebtoken";
-import { sql } from "../database/db.js";
-import { checkPassword } from "../services/auth.js";
 
 class SessionController {
     async create(req, res) {
-        const { APP_SECRET } = process.env
-        const { email, password } = req.body
-        const expiresIn = 60 * 60 * 24 * 7 // 7 days
+        try {
+            const { JWT_SECRET } = process.env
+            const { email, password } = req.body
+            const expiresJwtToken = 60 * 60 * 24 * 3 // 3 days
 
-        const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`
+            const userInfo = await sql`SELECT * FROM tb_user WHERE email = ${email}`
 
-        if (user.length === 0) {
-            console.error("Falha na autenticação, usuario não encontrado.")
-            return res.status(401).json({ error: "Authentication failure." })
-        }
+            if (userInfo.length === 0) {
+                console.error("Falha na autenticação, usuario não encontrado.")
+                return res.status(401).json({ error: "Authentication failure." })
+            }
 
-        if (!checkPassword(user[0].password, password)) {
-            console.error("Falha na autenticação, senhas não coincidem.")
-            return res.status(401).json({ error: "Authentication failure." })
-        }
+            if (!checkPassword(userInfo[0].password, password)) {
+                console.error("Falha na autenticação, senhas não coincidem.")
+                return res.status(401).json({ error: "Authentication failure." })
+            }
 
-        const { id } = user
+            const { id } = userInfo
 
-        return res.json({
-            user: {
-                id,
-                email
-            },
-            token: jwt.sign({ id }, APP_SECRET, {
-                expiresIn
+            return res.json({
+                userInfo: {
+                    id,
+                    email
+                },
+                token: jwt.sign({ id }, JWT_SECRET, {
+                    expiresJwtToken
+                })
             })
-        })
+        } catch (err) {
+            console.error("erro ao inciar sessão: ", err)
+            return res.status(500).json({ error: "Internal Server Error." })
+        }
     }
 }
 

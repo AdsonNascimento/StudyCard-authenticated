@@ -11,8 +11,6 @@ function Login() {
 
   const handleSubmit = (e) => {
     
-    console.log("submit", { email, password });
-    
     login(email, password);
     e.preventDefault(); // Impede a recarga da página
   }
