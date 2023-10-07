@@ -30,9 +30,19 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      
-      <Link to="/login">Login</Link>
-      <Link to="/register">cadastre-se</Link>
+
+      <ul>
+        <li>
+          <Link to="/login">login</Link>
+        </li>
+        <li>
+          <Link to="/register">cadastre-se</Link>
+        </li>
+        <li>
+          <Link to="/home">home</Link>
+        </li>
+      </ul>
+
     </>
   )
 }
