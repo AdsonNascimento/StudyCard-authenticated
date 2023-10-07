@@ -21,10 +21,9 @@ function Login() {
         <h1 lang="en">Study<span>Card</span></h1>
         <form id="login" action="" method="post" onSubmit={handleSubmit}>
           <h2>login:</h2>
-          <div className="login-info">
+          <div className="container-input">
             <label htmlFor="user">E-mail</label>
             <input
-              id="user"
               className='default-input'
               type="email"
               required
@@ -33,10 +32,9 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="login-info">
+          <div className="container-input">
             <label htmlFor="password">Senha:</label>
             <input
-              id="password"
               className='default-input'
               type="password"
               required

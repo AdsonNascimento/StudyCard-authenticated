@@ -50,7 +50,7 @@ export default function Register() {
                 <h1 lang="en">Study<span>Card</span></h1>
                 <form id="register" action="" method="post" onSubmit={handleSubmit}>
                     <h2>criar conta:</h2>
-                    <div className="login-info">
+                    <div className="container-input">
                         <label htmlFor="user">Nome</label>
                         <input
                             className='default-input'
@@ -61,7 +61,7 @@ export default function Register() {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
-                    <div className="login-info">
+                    <div className="container-input">
                         <label htmlFor="user">Data de nascimento</label>
                         <input
                             className='default-input'
@@ -72,7 +72,7 @@ export default function Register() {
                             onChange={(e) => setBirthday(e.target.value)}
                         />
                     </div>
-                    <div className="login-info">
+                    <div className="container-input">
                         <label htmlFor="user">Seu e-mail</label>
                         <input
                             className='default-input'
@@ -83,7 +83,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="login-info">
+                    <div className="container-input">
                         <label htmlFor="password">Senha:</label>
                         <input
                             className='default-input'
@@ -94,7 +94,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <div className="login-info">
+                    <div className="container-input">
                         <label htmlFor="check-password">Confirme sua senha:</label>
                         <input
                             className='default-input'

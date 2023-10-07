@@ -39,7 +39,7 @@ class UserController {
 
     async create(req, res) {
         try {
-            const { email, password, confirmedPassword } = req.body
+            const { name, birthday, email, password, confirmedPassword } = req.body
 
             if (!isValidPassword(password, confirmedPassword)) {
                 return res.status(400).json({ error: "Password invalid." });
@@ -55,7 +55,11 @@ class UserController {
 
             const encryptedPassword = await createPasswordHash(password)
 
-            const result = await sql`INSERT INTO tb_user (id, email, password, user_created) VALUES (${userId}, ${email}, ${encryptedPassword}, now()) RETURNING *`
+            const result = await sql`
+                INSERT INTO tb_user (id, email, password, name, birthday, user_created)
+                VALUES (${userId}, ${email}, ${encryptedPassword}, ${name}, ${birthday}, NOW())
+                RETURNING *;            
+            `
 
             if (result.length === 0) {
                 return res.status(500).json({ error: "Erro ao inserir o usuário." });
