@@ -8,6 +8,6 @@ export const createSession = async (email, password) => {
     return api.post('/sessions', { email, password })
 }
 
-export async function createUser (email, password) {
-    return await api.post('/user', {email, password})
+export async function createUser (email, password, confirmedPassword) {
+    return await api.post('/user', {email, password, confirmedPassword})
 }

@@ -12,21 +12,27 @@ export default function Register() {
     const { login } = useContext(AuthContext);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (password != confirmedPassword) {
-            return alert("Senhas não coincidem")
+        if (password !== confirmedPassword) {
+            return alert("Senhas não coincidem");
         }
 
         if (!strongPassword(password, confirmedPassword)) {
-            return alert("senhas fraca!")
+            return alert("Senha fraca!");
         }
 
-        createUser(email, password)
-        alert("usuario criado com sucesso!")
-        login(email, password);
-    }
+        try {
+            await createUser(email, password, confirmedPassword);
+            alert("Usuário criado com sucesso!");
+            await login(email, password);
+        } catch (error) {
+            console.error(error.message)
+            alert("Ocorreu um erro ao criar o usuário, tente novamente mais tarde!");
+        }
+    };
+
 
     return (
         <main id="register-page">
