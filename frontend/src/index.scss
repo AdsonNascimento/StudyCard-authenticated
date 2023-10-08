@@ -16,19 +16,8 @@ $red: #e71d36;
 
 $green-soft: rgba(46, 196, 181, 0.1);
 $blue-soft: rgba(30, 148, 252, 0.1);
-$blue-soft-2: rgba(30, 148, 252, 0.2);
 
 html {
-  /*==== cores bases ====*/
-  --dark-blue: #{$dark-blue};
-  --off-white: #{$off-white};
-  --green: #{$green};
-  --blue: #{$blue};
-  --red: #{$red};
-
-  --green-soft: #{$green-soft};
-  --blue-soft: #{$blue-soft};
-
   /*==== fonts ====*/
   font-family: 'Poppins', sans-serif;
 

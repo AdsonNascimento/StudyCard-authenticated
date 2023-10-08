@@ -27,10 +27,10 @@ export default function Register() {
 
             // Criação do usuário
             await createUser(name, birthday, email, password, confirmedPassword);
+            alert("Usuário criado com sucesso!");
 
             // Login bem-sucedido
             await login(email, password);
-            alert("Usuário criado com sucesso!");
         } catch (error) {
             console.error('Erro durante o processo:', error.message);
             alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
