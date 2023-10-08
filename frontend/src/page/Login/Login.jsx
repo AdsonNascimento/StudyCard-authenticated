@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import './Login.scss';
 import { Link } from 'react-router-dom';
+import UserDataValidator from '../../tools/userDataVAlidator.js';
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -9,10 +10,20 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    
-    login(email, password);
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      // Validação dos dados
+      UserDataValidator.validateEmail(email);
+      UserDataValidator.validatePassword(password);
+
+      // Login bem-sucedido
+      await login(email, password);
+    } catch (error) {
+      console.error('Erro durante o processo:', error.message);
+      alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
+    }
   }
 
   return (

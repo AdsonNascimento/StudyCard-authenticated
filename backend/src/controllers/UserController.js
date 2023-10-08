@@ -2,7 +2,7 @@ import { sql } from "../database/db.js"
 import { randomUUID } from "node:crypto"
 import { createPasswordHash } from "../services/auth.js"
 import { isValidUUID } from "../tools/isValidUUID.js";
-import { isValidPassword } from "../tools/isValidPassword.js";
+import UserDataValidator from "../tools/userDataVAlidator.js";
 
 class UserController {
     async list(req, res) { //metodo ultilizado apenas em testes
@@ -47,8 +47,15 @@ class UserController {
         try {
             const { name, birthday, email, password, confirmedPassword } = req.body
 
-            if (!isValidPassword(password, confirmedPassword)) {
-                return res.status(400).json({ error: "Password invalid." });
+            try {
+                UserDataValidator.validateName(name);
+                UserDataValidator.validateBirthday(birthday);
+                UserDataValidator.validateEmail(email);
+                UserDataValidator.validatePassword(password);
+                UserDataValidator.validatePasswordConfirmation(password, confirmedPassword);
+            } catch (error) {
+                console.error('Erro na validação de dados:', error.message);
+                return res.status(422).json({ menssage: `Error in data validation` })
             }
 
             const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`;

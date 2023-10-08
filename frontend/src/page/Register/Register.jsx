@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
+import UserDataValidator from '../../tools/userDataVAlidator.js';
 import "./Register.scss"
-import strongPassword from '../../tools/strongPassword.js';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -17,31 +17,26 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (password !== confirmedPassword) {
-            return alert("Senhas não coincidem");
-        }
-
-        if (!strongPassword(password, confirmedPassword)) {
-            return alert("Senha fraca!");
-        }
-
         try {
-            await createUser(
-                name,
-                birthday,
-                email, 
-                password, 
-                confirmedPassword
-            );
+            // Validação dos dados
+            UserDataValidator.validateName(name);
+            UserDataValidator.validateBirthday(birthday);
+            UserDataValidator.validateEmail(email);
+            UserDataValidator.validatePassword(password);
+            UserDataValidator.validatePasswordConfirmation(password, confirmedPassword);
 
-            alert("Usuário criado com sucesso!");
+            // Criação do usuário
+            await createUser(name, birthday, email, password, confirmedPassword);
 
+            // Login bem-sucedido
             await login(email, password);
+            alert("Usuário criado com sucesso!");
         } catch (error) {
-            console.error(error.message)
-            alert("Ocorreu um erro ao criar o usuário, tente novamente mais tarde!");
+            console.error('Erro durante o processo:', error.message);
+            alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
         }
     };
+
 
 
     return (
