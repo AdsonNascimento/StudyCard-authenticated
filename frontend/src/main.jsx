@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import App from './App.jsx';
+import Home from './page/Home/home.jsx';
 import Register from './page/Register/Register.jsx';
 import Login from './page/Login/Login.jsx';
-import Home from './page/Home/Home.jsx';
+import Dashboard from './page/dashboard/dashboard.jsx';
 import './index.scss';
 import { AuthProvider, AuthContext } from './contexts/contexts.jsx';
 
@@ -27,7 +27,7 @@ const Main = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element:  <App />,
+      element:  <Home />,
     },
     {
       path: '/login',
@@ -38,8 +38,8 @@ const Main = () => {
       element: <Register />,
     },
     {
-      path: '/home',
-      element: <Private><Home /></Private>
+      path: '/dashboard',
+      element: <Private><Dashboard /></Private>
     },
   ]);
 

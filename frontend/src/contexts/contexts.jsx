@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
         api.defaults.headers.Authorization = `Bearer ${token}`
 
-        window.location.href = '/home'
+        window.location.href = '/dashboard'
     };
 
     const logout = () => {
