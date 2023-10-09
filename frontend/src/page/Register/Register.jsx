@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
+import ButtonLoader from '../../components/ButtonLoader/ButtonLoader.jsx';
 import UserDataValidator from '../../tools/userDataVAlidator.js';
 import "./Register.scss"
 
@@ -11,11 +12,13 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(AuthContext);
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
+        setIsLoading(true)
 
         try {
             // Validação dos dados
@@ -35,6 +38,7 @@ export default function Register() {
             console.error('Erro durante o processo:', error.message);
             alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
         }
+        setIsLoading(false)
     };
 
 
@@ -100,7 +104,7 @@ export default function Register() {
                             onChange={(e) => setConfirmedPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit">confirmar</button>
+                    <ButtonLoader type="submit" className={`${isLoading ? "loading" : ""}`}>entrar</ButtonLoader>
                 </form>
                 <Link to="/login">entrar</Link>
             </section>

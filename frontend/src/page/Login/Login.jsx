@@ -3,15 +3,18 @@ import { AuthContext } from '../../contexts/contexts.jsx';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import UserDataValidator from '../../tools/userDataVAlidator.js';
+import ButtonLoader from '../../components/ButtonLoader/ButtonLoader.jsx';
 
 function Login() {
   const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
 
     try {
       // Validação dos dados
@@ -24,6 +27,8 @@ function Login() {
       console.error('Erro durante o processo:', error.message);
       alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
     }
+
+    setIsLoading(false)
   }
 
   return (
@@ -54,7 +59,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit">entrar</button>
+          <ButtonLoader type="submit" className={`${isLoading ? "loading" : ""}`}>entrar</ButtonLoader>
         </form>
         <Link to="/register">cadastre-se</Link>
       </section>
