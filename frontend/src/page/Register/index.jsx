@@ -22,7 +22,7 @@ export default function Register() {
 
         try {
             // Validação dos dados
-            UserDataValidator.validateName(name);
+            UserDataValidator.validateUserName(name);
             UserDataValidator.validateBirthday(birthday);
             UserDataValidator.validateEmail(email);
             UserDataValidator.validatePassword(password);

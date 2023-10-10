@@ -1,7 +1,8 @@
 import axios from "axios"
 
+
 export const api = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: 'https://bksc.onrender.com',
 })
 
 export const createSession = async (email, password) => {
@@ -10,4 +11,4 @@ export const createSession = async (email, password) => {
 
 export async function createUser (name, birthday, email, password, confirmedPassword) {
     return await api.post('/user', {name, birthday, email, password, confirmedPassword})
-}
+} 

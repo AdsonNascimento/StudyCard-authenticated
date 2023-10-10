@@ -29,7 +29,7 @@ function App() {
             <Link to="/register">cadastre-se</Link>
           </li>
           <li>
-            <Link to="/home">home</Link>
+            <Link to="/dashboard">dashboard</Link>
           </li>
         </ul>
       </div>
