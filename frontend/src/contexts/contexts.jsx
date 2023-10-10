@@ -20,32 +20,49 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async (email, password) => {
-        const response = await createSession(email, password)
+        try {
+            const response = await createSession(email, password);
 
-        if (response.status === 401) {
-            localStorage.removeItem('authenticated')
-            localStorage.removeItem('token')
+            if (response.status >= 200 && response.status < 300) {
+                const loggedUser = response.data.userInfo;
+                const token = response.data.token;
+
+                localStorage.setItem('authenticated', JSON.stringify(loggedUser));
+                localStorage.setItem('token', JSON.stringify(token));
+
+                api.defaults.headers.Authorization = `Bearer ${token}`;
+
+                window.location.href = '/dashboard';
+            } else {
+                localStorage.removeItem('authenticated');
+                localStorage.removeItem('token');
+                throw new Error(`Erro de servidor: Status ${response.status}`);
+            }
+        } catch (err) {
+            if (err.status === 401) {
+                throw new Error(`Acesso não autorizado, verifique login e senha.`);
+            }
+            throw new Error(`Erro ao acessar o servidor, tente novamente mais tarde.`);
         }
-
-        const loggedUser = response.data.userInfo
-        const token = response.data.token
-
-        localStorage.setItem('authenticated', JSON.stringify(loggedUser))
-        localStorage.setItem('token', JSON.stringify(token))
-
-        api.defaults.headers.Authorization = `Bearer ${token}`
-
-        window.location.href = '/dashboard'
     };
+
 
     const logout = () => {
-        localStorage.removeItem('authenticated')
-        localStorage.removeItem('token')
-
-        api.defaults.headers.Authorization = null
-
-        window.location.href = '/login'
+        try {
+            localStorage.removeItem('authenticated');
+            localStorage.removeItem('token');
+    
+            // Remova o cabeçalho de autorização
+            delete api.defaults.headers.common['Authorization'];
+    
+            window.location.href = '/login';
+        } catch (err) {
+            // Trate erros que podem ocorrer durante o logout, se necessário
+            console.error('Erro durante o logout:', err);
+            throw new Error('Erro durante o logout, tente novamente mais tarde.');
+        }
     };
+    
 
     return (
         <AuthContext.Provider value={{ user, loading, login, logout }}>

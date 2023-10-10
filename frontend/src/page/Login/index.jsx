@@ -3,7 +3,8 @@ import { AuthContext } from '../../contexts/contexts.jsx';
 import './Login.scss';
 import { Link } from 'react-router-dom';
 import UserDataValidator from '../../tools/userDataVAlidator.js';
-import ButtonLoader from '../../components/ButtonLoader/ButtonLoader.jsx';
+import ButtonLoader from '../../components/ButtonLoader/index.jsx';
+import Popup from '../../components/popup'
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -11,6 +12,9 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,13 +27,17 @@ function Login() {
 
       // Login bem-sucedido
       await login(email, password);
-    } catch (error) {
-      console.error('Erro durante o processo:', error.message);
-      alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
+    } catch (err) {
+      setError(`${err.message}`);
+      setPopupVisible(true);
+      setTimeout(() => {
+        setPopupVisible(false);
+      }, 3900);
     }
 
     setIsLoading(false)
   }
+
 
   return (
     <main id='login-page'>
@@ -63,6 +71,11 @@ function Login() {
         </form>
         <Link to="/register">cadastre-se</Link>
       </section>
+      {popupVisible && (
+        <Popup TypeColor="#e71d36">
+          {error}
+        </Popup>
+      )}
     </main>
   )
 }

@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
-import ButtonLoader from '../../components/ButtonLoader/ButtonLoader.jsx';
+import ButtonLoader from '../../components/ButtonLoader/index.jsx';
 import UserDataValidator from '../../tools/userDataVAlidator.js';
+import Popup from '../../components/popup'
 import "./Register.scss"
 
 export default function Register() {
@@ -15,6 +16,8 @@ export default function Register() {
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(AuthContext);
 
+    const [error, setError] = useState(null);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -34,10 +37,14 @@ export default function Register() {
 
             // Login bem-sucedido
             await login(email, password);
-        } catch (error) {
-            console.error('Erro durante o processo:', error.message);
-            alert("Ocorreu um erro durante o processo, verifique os dados e tente novamente.");
+        } catch (err) {
+            setError(`${err.message}`);
+            setPopupVisible(true);
+            setTimeout(() => {
+                setPopupVisible(false);
+            }, 3900);
         }
+
         setIsLoading(false)
     };
 
@@ -108,6 +115,11 @@ export default function Register() {
                 </form>
                 <Link to="/login">entrar</Link>
             </section>
+            {popupVisible && (
+                <Popup TypeColor="#e71d36">
+                    {error}
+                </Popup>
+            )}
         </main>
     )
 }

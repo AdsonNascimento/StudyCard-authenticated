@@ -1,0 +1,48 @@
+@import '../../index.scss';
+
+$height: 0.3rem;
+
+.popup-queue {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+
+    .popup {
+        position: relative;
+        top: 2rem;
+        right: 2rem;
+
+        background-color: $off-white;
+        border-radius: 1rem 1rem $height $height;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.185);
+        padding: 2rem;
+
+        text-align: justify;
+        font-size: 1.25rem;
+        font-weight: 500;
+
+        width: 330px;
+        overflow: hidden;
+
+        &::after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            content: "";
+            height: $height;
+            background-color: var(--type-color); // Use a variável CSS personalizada
+            animation: var(--animation-seconds) ease-in-out timeOut infinite; // Use a variável CSS personalizada
+        }
+    }
+}
+
+@keyframes timeOut {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}

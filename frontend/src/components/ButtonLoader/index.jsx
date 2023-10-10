@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "../Loading/Loading";
+import Loading from "../Loading";
 import "./ButtonLoader.scss";
 
 export default function ButtonLoader({ className, children, ...restProps }) {

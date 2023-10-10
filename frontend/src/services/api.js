@@ -1,14 +1,34 @@
-import axios from "axios"
-
+import axios from "axios";
+import handleApiError from '../tools/handleApiError.js'
 
 export const api = axios.create({
     baseURL: 'https://bksc.onrender.com',
-})
+});
 
 export const createSession = async (email, password) => {
-    return api.post('/sessions', { email, password })
-}
+    try {
+        const response = await api.post('/sessions', { email, password });
 
-export async function createUser (name, birthday, email, password, confirmedPassword) {
-    return await api.post('/user', {name, birthday, email, password, confirmedPassword})
-} 
+        if (response.status !== 200) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+};
+
+export async function createUser(name, birthday, email, password, confirmedPassword) {
+    try {
+        const response = await api.post('/user', { name, birthday, email, password, confirmedPassword });
+
+        if (response.status < 200 && response.status >= 300 ) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}
