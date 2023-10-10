@@ -27,7 +27,7 @@ export default class UserDataValidator {
     static validateEmail(email) {
         const trimmedEmail = email.trim();
         if (typeof trimmedEmail !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail) || trimmedEmail.length > 255) {
-            throw new Error('O email é obrigatório e deve ser um email válido com até 255 caracteres.');
+            throw new Error('O email é obrigatório e deve ser um email válido.');
         }
     }
 
