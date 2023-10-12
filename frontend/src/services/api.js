@@ -2,7 +2,7 @@ import axios from "axios";
 import handleApiError from '../tools/handleApiError.js'
 
 export const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://bksc.onrender.com',
 });
 
 export const createSession = async (email, password) => {

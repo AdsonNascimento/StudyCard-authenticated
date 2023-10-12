@@ -5,12 +5,12 @@ export default function Dashboard() {
     const { logout } = useContext(AuthContext);
 
     return (
-        <>
+        <main>
             <h1>Home page</h1>
 
             <button onClick={logout}>
                 sair
             </button>
-        </>
+        </main>
     )
 }

@@ -17,10 +17,10 @@ export default function Register() {
     const { login } = useContext(AuthContext);
     const [popupData, setPopupData] = useState(null);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
+
 
         try {
             // Validação dos dados
@@ -37,7 +37,6 @@ export default function Register() {
             // Login bem-sucedido
             await login(email, password);
         } catch (err) {
-            console.log(err.message)
             setPopupData({ type: 'error', text: err.message });
         }
 
