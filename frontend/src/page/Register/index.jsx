@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import ButtonLoader from '../../components/ButtonLoader/index.jsx';
-import UserDataValidator from '../../tools/userDataVAlidator.js';
-import Popup from '../../components/popup'
+import UserDataValidator from '../../tools/userDataValidator.js';
 import "./Register.scss"
+import PopupWrapper from '../../components/PopupWrapper';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -15,9 +15,8 @@ export default function Register() {
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(AuthContext);
+    const [popupData, setPopupData] = useState(null);
 
-    const [error, setError] = useState(null);
-    const [popupVisible, setPopupVisible] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -38,11 +37,8 @@ export default function Register() {
             // Login bem-sucedido
             await login(email, password);
         } catch (err) {
-            setError(`${err.message}`);
-            setPopupVisible(true);
-            setTimeout(() => {
-                setPopupVisible(false);
-            }, 3900);
+            console.log(err.message)
+            setPopupData({ type: 'error', text: err.message });
         }
 
         setIsLoading(false)
@@ -115,11 +111,7 @@ export default function Register() {
                 </form>
                 <Link to="/login">entrar</Link>
             </section>
-            {popupVisible && (
-                <Popup TypeColor="#e71d36">
-                    {error}
-                </Popup>
-            )}
+            <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
         </main>
     )
 }

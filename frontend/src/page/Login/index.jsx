@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import './Login.scss';
 import { Link } from 'react-router-dom';
-import UserDataValidator from '../../tools/userDataVAlidator.js';
+import UserDataValidator from '../../tools/userDataValidator.js';
 import ButtonLoader from '../../components/ButtonLoader/index.jsx';
-import Popup from '../../components/popup'
+import PopupWrapper from '../../components/PopupWrapper';
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -12,13 +12,11 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [popupVisible, setPopupVisible] = useState(false);
-
+  const [popupData, setPopupData] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // Validação dos dados
@@ -28,16 +26,11 @@ function Login() {
       // Login bem-sucedido
       await login(email, password);
     } catch (err) {
-      setError(`${err.message}`);
-      setPopupVisible(true);
-      setTimeout(() => {
-        setPopupVisible(false);
-      }, 3900);
+      setPopupData({ type: 'error', text: err.message });
     }
 
-    setIsLoading(false)
+    setIsLoading(false);
   }
-
 
   return (
     <main id='login-page'>
@@ -71,11 +64,7 @@ function Login() {
         </form>
         <Link to="/register">cadastre-se</Link>
       </section>
-      {popupVisible && (
-        <Popup TypeColor="#e71d36">
-          {error}
-        </Popup>
-      )}
+      <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
     </main>
   )
 }

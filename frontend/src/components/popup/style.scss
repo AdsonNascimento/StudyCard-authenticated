@@ -2,15 +2,13 @@
 
 $height: 0.3rem;
 
-.popup-queue {
+.popup-container {
     position: fixed;
     top: 2rem;
     right: 2rem;
 
     .popup {
         position: relative;
-        top: 2rem;
-        right: 2rem;
 
         background-color: $off-white;
         border-radius: 1rem 1rem $height $height;
@@ -32,7 +30,9 @@ $height: 0.3rem;
             content: "";
             height: $height;
             background-color: var(--type-color); // Use a variável CSS personalizada
-            animation: var(--animation-seconds) ease-in-out timeOut infinite; // Use a variável CSS personalizada
+            animation: var(--animation-seconds) linear timeOut;
+
+
         }
     }
 }
