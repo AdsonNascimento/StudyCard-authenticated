@@ -30,9 +30,7 @@ $height: 0.3rem;
             content: "";
             height: $height;
             background-color: var(--type-color); // Use a variável CSS personalizada
-            animation: var(--animation-seconds) linear timeOut;
-
-
+            animation: var(--animation-seconds) linear timeOut infinite;
         }
     }
 }

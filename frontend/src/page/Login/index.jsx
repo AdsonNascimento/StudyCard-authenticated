@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/contexts.jsx';
-import './Login.scss';
 import { Link } from 'react-router-dom';
 import UserDataValidator from '../../tools/userDataValidator.js';
-import ButtonLoader from '../../components/ButtonLoader/index.jsx';
+import ButtonLoader from '../../components/ButtonLoader';
 import PopupWrapper from '../../components/PopupWrapper';
+import Logo from '../../components/Logo'
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -33,13 +33,13 @@ function Login() {
   }
 
   return (
-    <main id='login-page'>
+    <main id='form-page'>
       <section>
-        <h1 lang="en">Study<span>Card</span></h1>
+        <Logo />
         <form id="login" action="" method="post" onSubmit={handleSubmit}>
-          <h2>login:</h2>
-          <div className="container-input">
-            <label htmlFor="user">E-mail</label>
+          <legend>login:</legend>
+          <label>
+            <span>E-mail</span>
             <input
               className='default-input'
               type="email"
@@ -48,9 +48,9 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className="container-input">
-            <label htmlFor="password">Senha:</label>
+          </label>
+          <label htmlFor="password">
+            <span>Senha:</span>
             <input
               className='default-input'
               type="password"
@@ -59,13 +59,13 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
+          </label>
           <ButtonLoader type="submit" className={`${isLoading ? "loading" : ""}`}>entrar</ButtonLoader>
         </form>
         <Link to="/register">cadastre-se</Link>
       </section>
       <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
-    </main>
+    </main >
   )
 }
 

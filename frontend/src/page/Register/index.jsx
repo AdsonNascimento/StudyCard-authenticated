@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
-import ButtonLoader from '../../components/ButtonLoader/index.jsx';
+import ButtonLoader from '../../components/ButtonLoader';
 import UserDataValidator from '../../tools/userDataValidator.js';
-import "./Register.scss"
 import PopupWrapper from '../../components/PopupWrapper';
+import Logo from '../../components/Logo'
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -44,69 +44,73 @@ export default function Register() {
         setIsLoading(false)
     };
 
-
-
     return (
-        <main id="register-page">
+        <main id="form-page">
             <section>
-                <h1 lang="en">Study<span>Card</span></h1>
+                <Logo />
                 <form id="register" action="" method="post" onSubmit={handleSubmit}>
-                    <h2>criar conta:</h2>
-                    <div className="container-input">
-                        <label htmlFor="user">Nome</label>
+                    <legend>criar conta:</legend>
+
+                    <label>
+                        <span>Nome</span>
                         <input
                             className='default-input'
                             type="text"
                             required
-                            placeholder="nome"
+                            placeholder="Nome"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
-                    </div>
-                    <div className="container-input">
-                        <label htmlFor="user">Data de nascimento</label>
+                    </label>
+
+                    <label>
+                        <span>Data de Nascimento</span>
                         <input
                             className='default-input'
                             type="date"
                             required
-                            placeholder="data de nascimento"
+                            placeholder="Data de Nascimento"
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
                         />
-                    </div>
-                    <div className="container-input">
-                        <label htmlFor="user">Seu e-mail</label>
+                    </label>
+
+                    <label>
+                        <span>Seu E-mail</span>
                         <input
                             className='default-input'
                             type="email"
                             required
-                            placeholder="e-mail"
+                            placeholder="E-mail"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </div>
-                    <div className="container-input">
-                        <label htmlFor="password">Senha:</label>
+                    </label>
+
+                    <label>
+                        <span>Senha</span>
                         <input
                             className='default-input'
                             type="password"
                             required
-                            placeholder="senha"
+                            placeholder="Senha"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                    </div>
-                    <div className="container-input">
-                        <label htmlFor="check-password">Confirme sua senha:</label>
+                    </label>
+
+                    <label>
+                        <span>Confirme sua Senha</span>
                         <input
                             className='default-input'
                             type="password"
                             required
-                            placeholder="confirme sua senha"
+                            placeholder="Confirme sua Senha"
                             value={confirmedPassword}
                             onChange={(e) => setConfirmedPassword(e.target.value)}
                         />
-                    </div>
+                    </label>
+
                     <ButtonLoader type="submit" className={`${isLoading ? "loading" : ""}`}>entrar</ButtonLoader>
                 </form>
                 <Link to="/login">entrar</Link>
