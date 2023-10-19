@@ -10,8 +10,8 @@ routes.post('/user', UserController.create)
 routes.use(auth)
 
 // routes.get('/user', UserController.list) //rota apenas para testes
-routes.get('/user/:id', UserController.show)
 routes.put('/user/:id', UserController.update)
+routes.get('/user/:id', UserController.show)
 routes.delete('/user/:id', UserController.delete)
 
 export default routes

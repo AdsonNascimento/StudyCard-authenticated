@@ -25,7 +25,6 @@ class App {
         })
     }
 }
-
 const app = new App()
 
 const { PORT } = process.env
