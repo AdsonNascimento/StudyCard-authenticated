@@ -14,6 +14,8 @@ $green: #2ec4b5;
 $blue: #1e96fc;
 $red: #e71d36;
 
+$blue-two: #45a7fd;
+
 $green-soft: rgba(46, 196, 181, 0.1);
 $blue-soft: rgba(30, 148, 252, 0.1);
 
@@ -27,7 +29,6 @@ html {
 }
 
 body {
-  height: 100vh;
   width: 100vw;
   background-color: var(--off-white);
 }
