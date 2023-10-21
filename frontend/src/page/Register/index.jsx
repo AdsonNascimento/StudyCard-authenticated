@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import ButtonLoader from '../../components/ButtonLoader';
-import UserDataValidator from '../../tools/userDataValidator.js';
+import UserDataValidator from '../../tools/userDataValidator';
 import PopupWrapper from '../../components/PopupWrapper';
 import Logo from '../../components/Logo'
 
