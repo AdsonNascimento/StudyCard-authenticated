@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { createUser } from '../../services/api.js';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import ButtonLoader from '../../components/ButtonLoader';
-import userDataValidator from '../../tools/userDataValidator.js'
+import userDataValidator from '../../tools/userDataValidator'
 import PopupWrapper from '../../components/PopupWrapper';
 import Logo from '../../components/Logo'
 
@@ -24,11 +24,11 @@ export default function Register() {
 
         try {
             // Validação dos dados
-            UserDataValidator.validateUserName(name);
-            UserDataValidator.validateBirthday(birthday);
-            UserDataValidator.validateEmail(email);
-            UserDataValidator.validatePassword(password);
-            UserDataValidator.validatePasswordConfirmation(password, confirmedPassword);
+            userDataValidator.validateUserName(name);
+            userDataValidator.validateBirthday(birthday);
+            userDataValidator.validateEmail(email);
+            userDataValidator.validatePassword(password);
+            userDataValidator.validatePasswordConfirmation(password, confirmedPassword);
 
             // Criação do usuário
             await createUser(name, birthday, email, password, confirmedPassword);
