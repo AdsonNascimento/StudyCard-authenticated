@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/contexts.jsx';
 import { Link } from 'react-router-dom';
-import UserDataValidator from '../../tools/userDataValidator.js';
+import UserDataValidator from '../../tools/UserDataValidator.js';
 import ButtonLoader from '../../components/ButtonLoader';
 import PopupWrapper from '../../components/PopupWrapper';
 import Logo from '../../components/Logo'
