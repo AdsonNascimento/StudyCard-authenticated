@@ -12,8 +12,6 @@ export const api = axios.create({
 });
 
 export const createSession = async (email, password) => {
-    console.log(BASE_URL)
-
     try {
         const response = await api.post('/sessions', { email, password });
 
