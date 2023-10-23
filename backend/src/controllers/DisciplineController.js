@@ -16,7 +16,6 @@ class DisciplineController {
         }
     }
 
-
     async show(req, res) {
         try {
             const { id } = req.params;
@@ -37,7 +36,6 @@ class DisciplineController {
         }
     }
 
-
     async create(req, res) {
         try {
             const { email, discipline, description, difficulty } = req.body
@@ -46,7 +44,7 @@ class DisciplineController {
                 UserDataValidator.validateEmail(email)
 
                 if (!discipline || !description || !difficulty) {
-                    throw new Error('Campos obrigatórios estão faltando.');
+                    throw new Error('Campos obrigatórios para criação de disicplina estão faltando.');
                 }
 
             } catch (error) {
@@ -87,6 +85,18 @@ class DisciplineController {
         try {
             const { id } = req.params
             const { discipline, description, difficulty } = req.body
+
+            try {
+                UserDataValidator.validateEmail(email)
+
+                if (!discipline || !description || !difficulty) {
+                    throw new Error('Campos obrigatórios para atualização da disicplina estão faltando.');
+                }
+
+            } catch (error) {
+                console.error('Erro na validação de dados:', error.message);
+                return res.status(422).json({ message: `Error in data validation` })
+            }
 
             const isDiscipline = await sql`SELECT * FROM tb_discipline WHERE id = ${id}`
 
