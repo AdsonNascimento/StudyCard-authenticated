@@ -55,13 +55,13 @@ class UserController {
                 UserDataValidator.validatePasswordConfirmation(password, confirmedPassword);
             } catch (error) {
                 console.error('Erro na validação de dados:', error.message);
-                return res.status(422).json({ menssage: `Error in data validation` })
+                return res.status(422).json({ message: `Error in data validation` })
             }
 
             const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`;
 
             if (user.length > 0) {
-                return res.status(422).json({ menssage: `User ${email} already exists.` })
+                return res.status(422).json({ message: `User ${email} already exists.` })
             }
 
             const userId = randomUUID()

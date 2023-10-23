@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
             if (response.status >= 200 && response.status < 300) {
                 const loggedUser = response.data.userInfo;
                 const token = response.data.token;
+                const email = response.data.userInfo.email
 
                 localStorage.setItem('authenticated', JSON.stringify(loggedUser));
                 localStorage.setItem('token', JSON.stringify(token));
@@ -36,12 +37,15 @@ export const AuthProvider = ({ children }) => {
             } else {
                 localStorage.removeItem('authenticated');
                 localStorage.removeItem('token');
+
                 throw new Error(`Erro de servidor: Status ${response.status}`);
             }
         } catch (err) {
-            if (err.status === 401) {
-                throw new Error(`Acesso não autorizado, verifique login e senha.`);
+
+            if (!!err.message) {
+                throw new Error(`Acesso não autorizado, verifique email e senha.`);
             }
+
             throw new Error(`Erro ao acessar o servidor, tente novamente mais tarde.`);
         }
     };
@@ -51,10 +55,10 @@ export const AuthProvider = ({ children }) => {
         try {
             localStorage.removeItem('authenticated');
             localStorage.removeItem('token');
-    
+
             // Remova o cabeçalho de autorização
             delete api.defaults.headers.common['Authorization'];
-    
+
             window.location.href = '/login';
         } catch (err) {
             // Trate erros que podem ocorrer durante o logout, se necessário
@@ -62,7 +66,7 @@ export const AuthProvider = ({ children }) => {
             throw new Error('Erro durante o logout, tente novamente mais tarde.');
         }
     };
-    
+
 
     return (
         <AuthContext.Provider value={{ user, loading, login, logout }}>

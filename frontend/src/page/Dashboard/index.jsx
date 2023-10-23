@@ -4,14 +4,16 @@ import { Container } from '../../components/ContainerDashboard'
 import './style.scss'
 
 export default function Dashboard() {
-
   return (
     <>
       <HeaderLogin />
       <main id='dashboard'>
         <section className="questions">
           <Container.Root>
-            <Container.Title>Olá, meu chapa</Container.Title>
+            <Container.Header>
+              <Container.Title>Today's questions</Container.Title>
+              <Container.IconPlus />
+            </Container.Header>
             <Container.Divisor />
             <Container.Cards>
               <Container.Card>
@@ -23,6 +25,7 @@ export default function Dashboard() {
                 </Container.Tags>
               </Container.Card>
             </Container.Cards>
+
           </Container.Root>
         </section>
         <section className="dois"></section>
