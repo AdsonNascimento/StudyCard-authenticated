@@ -84,7 +84,7 @@ class DisciplineController {
     async update(req, res) {
         try {
             const { id } = req.params
-            const { discipline, description, difficulty } = req.body
+            const { email, discipline, description, difficulty } = req.body
 
             try {
                 UserDataValidator.validateEmail(email)
