@@ -1,21 +1,22 @@
-import React from 'react';
-import HeaderLogin from "../../components/HeaderLogin";
+import React, { useState } from 'react';
+import HeaderLogin from "../../components/HeaderLogin"
 import { Container } from '../../components/ContainerDashboard'
+import ModalCreateNew from "../../components/ModalCreateNewMatter"
 import './style.scss'
 
 export default function Dashboard() {
-
-  const newMatter = () => {
-    alert("teste")
-  }
+  const [openModal, setModalOpen] = useState(false)
 
   return (
     <>
       <HeaderLogin />
+      <ModalCreateNew isOpen={openModal} setModalOpen={() => setModalOpen(!openModal)} />
       <main id='dashboard'>
         <section className="questions">
+          
+          
           <Container.Root>
-              <Container.Title>Today's questions</Container.Title>
+            <Container.Title>Today's questions</Container.Title>
             <Container.Divisor />
             <Container.Cards>
               <Container.Card>
@@ -32,7 +33,7 @@ export default function Dashboard() {
           <Container.Root>
             <Container.Header>
               <Container.Title>Matters</Container.Title>
-              <Container.IconPlus onClick={() => newMatter()} />
+              <Container.IconPlus onClick={() => setModalOpen(true)} />
             </Container.Header>
             <Container.Divisor />
             <Container.Cards>
