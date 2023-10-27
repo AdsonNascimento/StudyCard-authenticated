@@ -4,44 +4,87 @@ import './style.scss'
 
 function ModalCreateNew({ isOpen, setModalOpen }) {
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
   if (isOpen) {
     return (
-      <section className="cover">
-        <div className="modal">
+      <section className="cover" onClick={setModalOpen} >
+        <div className="modal" onClick={(e) => e.stopPropagation()}>
           <Container.Root>
             <Container.Header>
               <Container.Title>Matters</Container.Title>
               <Container.IconClose onClick={setModalOpen} />
             </Container.Header>
             <Container.Divisor />
-            <form>
+            <form onSubmit={handleSubmit}>
               <label htmlFor="name">
-                <input type="text" placeholder='Nome da matéria' id='name' autoComplete='off' />
+                <input
+                  type="text"
+                  placeholder='Nome da matéria'
+                  id='name'
+                  autoComplete='off'
+                  required
+                />
               </label>
+
               <label htmlFor="desciption">
                 <textarea placeholder='Descrição opcional...' id='description' />
               </label>
 
               <fieldset>
-                <label htmlFor="very-easy">Very Easy</label>
-                <input type="radio" name="difficulty" id="very-easy" />
+                <legend>Selecione a dificuldade:</legend>
+                <label htmlFor="very-easy">
+                  Muito fácil
+                  <input type="radio" name="difficulty" id="very-easy" />
+                </label>
 
-                <label htmlFor="easy">Easy</label>
-                <input type="radio" name="difficulty" id="easy" />
+                <label htmlFor="easy">
+                  Fácil
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    id="easy"
+                    required
+                  />
+                </label>
 
-                <label htmlFor="medium">Medium</label>
-                <input type="radio" name="difficulty" id="medium" />
+                <label htmlFor="medium">
+                  Médio
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    id="medium"
+                    required
+                  />
+                </label>
 
-                <label htmlFor="hard">Hard</label>
-                <input type="radio" name="difficulty" id="hard" />
+                <label htmlFor="hard">
+                  Difícil
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    id="hard"
+                    required
+                  />
+                </label>
 
-                <label htmlFor="very-hard">Very Hard</label>
-                <input type="radio" name="difficulty" id="very-hard" />
+                <label htmlFor="very-hard">
+                  Muito difícil
+                  <input
+                    type="radio"
+                    name="difficulty"
+                    id="very-hard"
+                    required
+                  />
+                </label>
               </fieldset>
 
 
+
               <button type='submit'>
-                Cadastart
+                cadastrar
               </button>
 
             </form>
