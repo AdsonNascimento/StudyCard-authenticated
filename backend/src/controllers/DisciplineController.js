@@ -2,7 +2,7 @@ import { sql } from "../database/db.js"
 import UserDataValidator from "../tools/userDataVAlidator.js";
 
 class DisciplineController {
-    async list(req, res) {
+    async listAll(req, res) {
         try {
             const disciplines = await sql`
                 SELECT * FROM tb_discipline;
@@ -16,19 +16,70 @@ class DisciplineController {
         }
     }
 
+    async list(req, res) {
+        try {
+            const { email } = req.params;
+    
+            try {
+                UserDataValidator.validateEmail(email);
+            } catch (error) {
+                console.error('Erro na validação de dados:', error.message);
+                return res.status(422).json({ message: `Erro na validação de dados` });
+            }
+    
+            const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`;
+    
+            if (user.length === 0) {
+                return res.status(404).json({ message: "Usuário não encontrado." });
+            }
+    
+            const userId = user[0].id; // Obter o ID do usuário
+    
+            const disciplines = await sql`
+                SELECT id, discipline, difficulty, description
+                FROM tb_discipline
+                WHERE user_id = ${userId};
+            `;
+    
+            if (disciplines.length === 0) {
+                return res.status(404).json({ message: "Disciplinas não encontradas." });
+            }
+    
+            return res.status(200).json(disciplines);
+    
+        } catch (error) {
+            console.error("Erro ao buscar disciplinas por usuário no banco de dados: ", error);
+            return res.status(500).json({ error: "Erro interno do servidor." });
+        }
+    }
+    
+
     async show(req, res) {
         try {
-            const { id } = req.params;
+            const { id, email } = req.body;
+
+            try {
+                UserDataValidator.validateEmail(email)
+            } catch (error) {
+                console.error('Erro na validação de dados:', error.message);
+                return res.status(422).json({ message: `Error in data validation` })
+            }
+
+            const user = await sql`SELECT * FROM tb_user WHERE email = ${email}`;
+
+            if (user.length === 0) {
+                return res.status(404).json({ message: "Usuário não encontrado." });
+            }
 
             const discipline = await sql`
             SELECT * FROM tb_discipline WHERE id = ${id};
-        `
+          `;
 
             if (discipline.length === 0) {
-                return res.status(404).json({ message: "Disciplina não encontrada." })
+                return res.status(404).json({ message: "Disciplina não encontrada." });
             }
 
-            return res.json(discipline[0]); // Retornar a primeira disciplina encontrada
+            return res.json(discipline); // Retornar a primeira disciplina encontrada
 
         } catch (error) {
             console.error("Erro ao buscar disciplina por ID no banco de dados: ", error);

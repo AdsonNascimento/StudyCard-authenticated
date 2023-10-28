@@ -58,3 +58,17 @@ export const createMatter = async (emailUser, matterName, matterDescription, mat
         throw error; // Retorna ou lança o erro novamente após a manipulação
     }
 }
+
+export const listMatter = async (email) => {
+    try {
+        const response = await api.get(`/discipline/${email}`);
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}

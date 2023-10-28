@@ -22,11 +22,11 @@ routes.get('/user/:id', UserController.show);
 routes.delete('/user/:id', UserController.delete);
 
 // Rotas para disciplina
-routes.get('/discipline', DisciplineController.list);
-routes.get('/discipline/:id', DisciplineController.show);
+routes.get('/discipline/:email', DisciplineController.list);
+routes.get('/discipline/show', DisciplineController.show);
 routes.post('/discipline', DisciplineController.create);
 routes.put('/discipline/:id', DisciplineController.update);
-routes.delete('/discipline/:id', DisciplineController.delete);
+routes.delete('/discipline/', DisciplineController.delete);
 
 // Rotas para card
 routes.get('/card', CardController.list);

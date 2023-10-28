@@ -5,7 +5,7 @@ import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
 
-function ModalCreateNew({ isOpen, setModalOpen }) {
+function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [difficulty, setDifficulty] = useState('')
@@ -28,6 +28,8 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
       radioButtons.forEach((radio) => {
         radio.checked = false;
       });
+
+      sendDataToParent()
 
       setPopupData({ type: 'success', text: "Cadastro realizado com sucesso!" });
 
