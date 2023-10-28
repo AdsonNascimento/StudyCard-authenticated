@@ -1,23 +1,41 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { createMatter } from '../../services/api.js'
 import { Container } from '../ContainerDashboard/'
-import { AuthContext } from '../../contexts/contexts.jsx'
+import ButtonLoader from '../ButtonLoader/index.jsx'
+import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
 
 function ModalCreateNew({ isOpen, setModalOpen }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [difficulty, setDifficulty] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [popupData, setPopupData] = useState(null);
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
+  const radioButtons = document.querySelectorAll('input[type="radio"][name="difficulty"]');
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
     try {
       await createMatter(emailUser, name, description, difficulty)
-    } catch (error) {
-    }
 
+      //Clean parans
+      setName('')
+      setDescription('')
+      setDifficulty('')
+      radioButtons.forEach((radio) => {
+        radio.checked = false;
+      });
+
+      setPopupData({ type: 'success', text: "Cadastro realizado com sucesso!" });
+
+    } catch (error) {
+      console.error(error.message)
+      setPopupData({ type: 'error', text: "Não foi possivel realizar o cadastro da máteria. Tente novamente mais tarde!" });
+    }
+    setIsLoading(false)
   }
 
   if (isOpen) {
@@ -116,14 +134,13 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
               </fieldset>
 
 
-
-              <button type='submit'>
+              <ButtonLoader type='submit' className={`btn ${isLoading ? "loading" : ""}`}>
                 cadastrar
-              </button>
-
+              </ButtonLoader>
             </form>
           </Container.Root>
         </div>
+        <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
       </section>
     )
   }

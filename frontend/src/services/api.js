@@ -52,7 +52,6 @@ export const createMatter = async (emailUser, matterName, matterDescription, mat
             }
         );
 
-        console.log(response)
         return response;
     } catch (error) {
         handleApiError(error);
