@@ -16,6 +16,7 @@ routes.use(auth);
 
 // Rotas protegidas (requerem autenticação)
 // Rotas para usuário
+routes.get('/user', UserController.list);
 routes.put('/user/:id', UserController.update);
 routes.get('/user/:id', UserController.show);
 routes.delete('/user/:id', UserController.delete);

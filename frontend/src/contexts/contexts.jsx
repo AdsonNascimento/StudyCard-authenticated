@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
         if (recoveredUser) {
             setUser(JSON.parse(recoveredUser))
-            api.defaults.headers.Authorization = `Bearer ${token}`
+            api.defaults.headers.authorization =  `Bearer ${JSON.parse(token)}`
         }
 
         setLoading(false);
@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
             if (response.status >= 200 && response.status < 300) {
                 const loggedUser = response.data.userInfo;
                 const token = response.data.token;
-                const email = response.data.userInfo.email
 
                 localStorage.setItem('authenticated', JSON.stringify(loggedUser));
                 localStorage.setItem('token', JSON.stringify(token));

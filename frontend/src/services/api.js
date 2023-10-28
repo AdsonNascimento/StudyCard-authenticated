@@ -4,7 +4,7 @@ import handleApiError from '../tools/handleApiError.js';
 let BASE_URL = "http://localhost:3001";
 
 if (process.env.NODE_ENV === "production") {
-  BASE_URL = "https://bksc.onrender.com";
+    BASE_URL = "https://bksc.onrender.com";
 }
 
 export const api = axios.create({
@@ -15,7 +15,7 @@ export const createSession = async (email, password) => {
     try {
         const response = await api.post('/sessions', { email, password });
 
-        if (response.status !== 200) {
+        if (response.status < 200 && response.status > 300) {
             throw new Error(`Erro de servidor: Status ${response.status}`);
         }
 
@@ -29,12 +29,33 @@ export async function createUser(name, birthday, email, password, confirmedPassw
     try {
         const response = await api.post('/user', { name, birthday, email, password, confirmedPassword });
 
-        if (response.status < 200 && response.status >= 300) {
+        if (response.status >= 200 && response.status < 300) {
             throw new Error(`Erro de servidor: Status ${response.status}`);
         }
 
         return response;
     } catch (error) {
         handleApiError(error);
+    }
+}
+
+export const createMatter = async (emailUser, matterName, matterDescription, matterDifficulty) => {
+    try {
+        const difficulty = parseInt(matterDifficulty);
+        const response = await api.post(
+            '/discipline', 
+            { 
+                email: emailUser, 
+                discipline: matterName, 
+                description: matterDescription, 
+                difficulty 
+            }
+        );
+
+        console.log(response)
+        return response;
+    } catch (error) {
+        handleApiError(error);
+        throw error; // Retorna ou lança o erro novamente após a manipulação
     }
 }

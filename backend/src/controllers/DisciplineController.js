@@ -43,7 +43,7 @@ class DisciplineController {
             try {
                 UserDataValidator.validateEmail(email)
 
-                if (!discipline || !description || !difficulty) {
+                if (!discipline || !difficulty) {
                     throw new Error('Campos obrigatórios para criação de disicplina estão faltando.');
                 }
 

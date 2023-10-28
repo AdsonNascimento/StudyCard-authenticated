@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
+import { createMatter } from '../../services/api.js'
 import { Container } from '../ContainerDashboard/'
+import { AuthContext } from '../../contexts/contexts.jsx'
 import './style.scss'
 
 function ModalCreateNew({ isOpen, setModalOpen }) {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [difficulty, setDifficulty] = useState('')
+  const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    try {
+      await createMatter(emailUser, name, description, difficulty)
+    } catch (error) {
+    }
+
   }
 
   if (isOpen) {
@@ -21,31 +33,47 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
             <form onSubmit={handleSubmit}>
               <label htmlFor="name">
                 <input
-                  type="text"
-                  placeholder='Nome da matéria'
                   id='name'
+                  type='text'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder='Nome da matéria'
                   autoComplete='off'
                   required
                 />
               </label>
 
               <label htmlFor="desciption">
-                <textarea placeholder='Descrição opcional...' id='description' />
+                <textarea
+                  id='description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder='Descrição opcional...'
+                />
               </label>
 
               <fieldset>
                 <legend>Selecione a dificuldade:</legend>
                 <label htmlFor="very-easy">
                   Muito fácil
-                  <input type="radio" name="difficulty" id="very-easy" />
+                  <input
+                    id="very-easy"
+                    type="radio"
+                    value='1'
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    name="difficulty"
+                    required
+                  />
                 </label>
 
                 <label htmlFor="easy">
                   Fácil
                   <input
-                    type="radio"
-                    name="difficulty"
                     id="easy"
+                    type="radio"
+                    value='2'
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    name="difficulty"
                     required
                   />
                 </label>
@@ -53,9 +81,11 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
                 <label htmlFor="medium">
                   Médio
                   <input
-                    type="radio"
-                    name="difficulty"
                     id="medium"
+                    type="radio"
+                    value='3'
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    name="difficulty"
                     required
                   />
                 </label>
@@ -63,9 +93,11 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
                 <label htmlFor="hard">
                   Difícil
                   <input
-                    type="radio"
-                    name="difficulty"
                     id="hard"
+                    type="radio"
+                    value='4'
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    name="difficulty"
                     required
                   />
                 </label>
@@ -73,9 +105,11 @@ function ModalCreateNew({ isOpen, setModalOpen }) {
                 <label htmlFor="very-hard">
                   Muito difícil
                   <input
-                    type="radio"
-                    name="difficulty"
                     id="very-hard"
+                    type="radio"
+                    value='5'
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    name="difficulty"
                     required
                   />
                 </label>
