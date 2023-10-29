@@ -1,18 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createMatter } from '../../services/api.js'
-import { Container } from '../ContainerDashboard/'
+import { Container } from '../ContainerDashboard/index.jsx'
 import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
 
-function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [difficulty, setDifficulty] = useState('')
+function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [difficulty, setDifficulty] = useState('');
   const [isLoading, setIsLoading] = useState(false)
   const [popupData, setPopupData] = useState(null);
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
-  const radioButtons = document.querySelectorAll('input[type="radio"][name="difficulty"]');
+
+  useEffect(() => {
+    if (dataMatter) {
+      setName(dataMatter.discipline);
+      setDescription(dataMatter.description);
+      setDifficulty(`${dataMatter.difficulty}`);
+    }
+  }, [dataMatter]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,14 +27,6 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
 
     try {
       await createMatter(emailUser, name, description, difficulty)
-
-      //Clean parans
-      setName('')
-      setDescription('')
-      setDifficulty('')
-      radioButtons.forEach((radio) => {
-        radio.checked = false;
-      });
 
       sendDataToParent()
 
@@ -46,7 +45,7 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <Container.Root>
             <Container.Header>
-              <Container.Title>Matters</Container.Title>
+              <Container.Title>Editar matéria</Container.Title>
               <Container.IconClose onClick={setModalOpen} />
             </Container.Header>
             <Container.Divisor />
@@ -79,7 +78,8 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
                   <input
                     id="very-easy"
                     type="radio"
-                    value='1'
+                    value="1"
+                    checked={difficulty === "1"}
                     onChange={(e) => setDifficulty(e.target.value)}
                     name="difficulty"
                     required
@@ -91,7 +91,8 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
                   <input
                     id="easy"
                     type="radio"
-                    value='2'
+                    value="2"
+                    checked={difficulty === "2"}
                     onChange={(e) => setDifficulty(e.target.value)}
                     name="difficulty"
                     required
@@ -103,7 +104,8 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
                   <input
                     id="medium"
                     type="radio"
-                    value='3'
+                    value="3"
+                    checked={difficulty === "3"}
                     onChange={(e) => setDifficulty(e.target.value)}
                     name="difficulty"
                     required
@@ -115,7 +117,8 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
                   <input
                     id="hard"
                     type="radio"
-                    value='4'
+                    value="4"
+                    checked={difficulty === "4"}
                     onChange={(e) => setDifficulty(e.target.value)}
                     name="difficulty"
                     required
@@ -127,7 +130,8 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
                   <input
                     id="very-hard"
                     type="radio"
-                    value='5'
+                    value="5"
+                    checked={difficulty === "5"}
                     onChange={(e) => setDifficulty(e.target.value)}
                     name="difficulty"
                     required
@@ -137,7 +141,7 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
 
 
               <ButtonLoader type='submit' className={`btn ${isLoading ? "loading" : ""}`}>
-                cadastrar
+                atualizar
               </ButtonLoader>
             </form>
           </Container.Root>
@@ -150,4 +154,4 @@ function ModalCreateNew({ isOpen, setModalOpen, sendDataToParent }) {
   return null
 }
 
-export default ModalCreateNew
+export default MatterEdit

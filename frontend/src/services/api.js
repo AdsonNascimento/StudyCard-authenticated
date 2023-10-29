@@ -29,7 +29,7 @@ export async function createUser(name, birthday, email, password, confirmedPassw
     try {
         const response = await api.post('/user', { name, birthday, email, password, confirmedPassword });
 
-        if (response.status >= 200 && response.status < 300) {
+        if (response.status < 200 && response.status >= 300) {
             throw new Error(`Erro de servidor: Status ${response.status}`);
         }
 
@@ -59,9 +59,37 @@ export const createMatter = async (emailUser, matterName, matterDescription, mat
     }
 }
 
-export const listMatter = async (email) => {
+export const listMatters = async (email) => {
     try {
         const response = await api.get(`/discipline/${email}`);
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+export const showMatter = async (email, id) => {
+    try {
+        const response = await api.get(`/discipline/${email}/${id}`);
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+export const updateMatter = async (email, id) => {
+    try {
+        const response = await api.get(`/discipline/${email}/${id}`);
 
         if (response.status < 200 || response.status >= 300) {
             throw new Error(`Erro de servidor: Status ${response.status}`);

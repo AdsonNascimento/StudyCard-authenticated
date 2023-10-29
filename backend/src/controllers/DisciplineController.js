@@ -56,7 +56,7 @@ class DisciplineController {
 
     async show(req, res) {
         try {
-            const { id, email } = req.body;
+            const { id, email } = req.params;
 
             try {
                 UserDataValidator.validateEmail(email)
@@ -134,8 +134,8 @@ class DisciplineController {
 
     async update(req, res) {
         try {
-            const { id } = req.params
-            const { email, discipline, description, difficulty } = req.body
+            const { email, id } = req.params
+            const { discipline, description, difficulty } = req.body
 
             try {
                 UserDataValidator.validateEmail(email)
@@ -170,7 +170,14 @@ class DisciplineController {
 
     async delete(req, res) {
         try {
-            const { id } = req.params;
+            const { email, id } = req.params;
+            
+            try {
+                UserDataValidator.validateEmail(email)
+            } catch (error) {
+                console.error('Erro na validação de dados:', error.message);
+                return res.status(422).json({ message: `Error in data validation` })
+            }
 
             const discipline = await sql`SELECT * FROM tb_discipline WHERE id = ${id}`
 

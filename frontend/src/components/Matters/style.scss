@@ -1,3 +1,13 @@
+@import '../../index.scss';
+
+.container-loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 22rem;
+}
+
 .is-matter {
   display: flex;
   flex-direction: column;
@@ -15,5 +25,15 @@
   img {
     width: 32.5rem;
     margin: auto;
+  }
+}
+
+.matter-link {
+  text-align: center;
+  font-size: 1.25rem;
+  color: $dark-blue;
+
+  &:hover {
+    color: $blue;
   }
 }

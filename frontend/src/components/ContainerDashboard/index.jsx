@@ -10,7 +10,7 @@ import ContainerDashboardCardText from './ContainerDashboardCardText'
 import ContainerDashboardTags from './ContainerDashboardCardTags'
 import ContainerDashboardTag from './ContainerDashboardTag'
 
-import { IconPlus, IconClose } from './Icon'
+import { IconPlus, IconClose, IconBack, IconEdit } from './Icon'
 
 export const Container = {
     Root: ContainerDashboard,
@@ -22,6 +22,9 @@ export const Container = {
     Text: ContainerDashboardCardText,
     Tags: ContainerDashboardTags,
     Tag: ContainerDashboardTag,
+
     IconPlus: IconPlus,
     IconClose: IconClose,
+    IconBack: IconBack,
+    IconEdit: IconEdit,
 }

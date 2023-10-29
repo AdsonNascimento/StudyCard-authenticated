@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '../../components/ContainerDashboard'
-import { listMatter } from '../../services/api';
-import ModalCreateNew from "../../components/ModalCreateNewMatter"
+import { listMatters } from '../../services/api';
+import { Link } from 'react-router-dom';
+
+import ModalCreateNew from "../MatterNew"
 import CatError from '../../assets/cat.webp'
+import Loading from '../Loading';
+
 import './style.scss'
 
 export default function Matters() {
@@ -17,7 +21,7 @@ export default function Matters() {
     setError(false);
 
     try {
-      const response = await listMatter(email);
+      const response = await listMatters(email);
 
       if (response.data) {
         setData(response.data);
@@ -27,9 +31,9 @@ export default function Matters() {
     } catch (error) {
       setError(true);
       console.error('Erro ao buscar os dados da matéria:', error);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   }
 
   const receiveDataFromChild = () => {
@@ -50,21 +54,32 @@ export default function Matters() {
         <Container.Divisor />
 
         {loading ? (
-          <div>Loading...</div>
+
+          <div className="container-loading">
+            <Loading />
+          </div>
+
         ) : error ? (
+
           <div className='is-matter'>
             <h1>Cadê suas matérias?</h1>
             <img src={CatError} alt="cadastre agora" />
           </div>
+
         ) : (
+
           <Container.Cards>
             {data.map(item => (
-              <Container.Card key={item.id}>
-                <Container.Text>{item.discipline}</Container.Text>
-              </Container.Card>
+              <Link className='matter-link' to={`/matter/${item.id}`} key={item.id}>
+                <Container.Card>
+                  <Container.Title>{item.discipline}</Container.Title>
+                </Container.Card>
+              </Link>
             ))}
           </Container.Cards>
+
         )}
+
       </Container.Root>
       <ModalCreateNew isOpen={openModal} setModalOpen={() => setModalOpen(!openModal)} sendDataToParent={receiveDataFromChild} />
     </section>

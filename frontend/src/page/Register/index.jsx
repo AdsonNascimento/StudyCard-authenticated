@@ -21,7 +21,7 @@ export default function Register() {
         e.preventDefault()
         setIsLoading(true)
 
-
+        console.log("01")
         try {
             // Validação dos dados
             UserDataValidator.validateUserName(name);
@@ -29,6 +29,7 @@ export default function Register() {
             UserDataValidator.validateEmail(email);
             UserDataValidator.validatePassword(password);
             UserDataValidator.validatePasswordConfirmation(password, confirmedPassword);
+            console.log("02")
 
             // Criação do usuário
             await createUser(name, birthday, email, password, confirmedPassword);

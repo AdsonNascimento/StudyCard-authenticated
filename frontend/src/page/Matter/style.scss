@@ -1,0 +1,32 @@
+@import '../../index.scss';
+
+#matter {
+  margin: auto;
+  width: calc(100vw - 4rem);
+  display: grid;
+  grid-template-columns: 1fr 32.5rem;
+  gap: 2rem;
+  flex: 1 400px;
+
+  .matter-title {
+    text-align: center;
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .description {
+      font-size: 1.25rem;
+    }
+  }
+
+  .matter-nav {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .questions {
+    display: grid;
+    gap: 2rem;
+  }
+}

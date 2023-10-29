@@ -7,6 +7,7 @@ import Home from './page/Home/';
 import Register from './page/Register/';
 import Login from './page/Login/';
 import Dashboard from './page/Dashboard/';
+import Matter from './page/Matter/'
 import Loading from './components/Loading/';
 import './index.scss';
 
@@ -41,6 +42,10 @@ const Main = () => {
     {
       path: '/dashboard',
       element: <Private><Dashboard /></Private>
+    },
+    {
+      path: '/matter/:id',
+      element: <Private><Matter /></Private>
     },
   ]);
 
