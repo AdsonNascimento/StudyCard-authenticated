@@ -87,9 +87,11 @@ export const showMatter = async (email, id) => {
     }
 }
 
-export const updateMatter = async (email, id) => {
+export const updateMatter = async (email, id, discipline, description, difficulty ) => {
     try {
-        const response = await api.get(`/discipline/${email}/${id}`);
+        const response = await api.put(`/discipline/${email}/${id}`, 
+            {discipline, description, difficulty}
+        );
 
         if (response.status < 200 || response.status >= 300) {
             throw new Error(`Erro de servidor: Status ${response.status}`);

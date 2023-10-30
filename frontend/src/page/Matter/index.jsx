@@ -38,6 +38,9 @@ function Matter() {
     setLoading(false);
   }
 
+  const receiveDataFromChild = () => {
+    fetchMatter();
+  }
 
   useEffect(() => {
     fetchMatter()
@@ -101,6 +104,7 @@ function Matter() {
           isOpen={openModal} 
           setModalOpen={() => setModalOpen(!openModal)} 
           dataMatter={data}
+          sendDataToParent={receiveDataFromChild}
         />
       </main>
     </>

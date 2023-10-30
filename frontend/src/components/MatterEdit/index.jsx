@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { createMatter } from '../../services/api.js'
 import { Container } from '../ContainerDashboard/index.jsx'
+import { updateMatter } from '../../services/api.js'
 import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
@@ -26,7 +26,9 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
     setIsLoading(true)
 
     try {
-      await createMatter(emailUser, name, description, difficulty)
+      await updateMatter(
+        emailUser, dataMatter.id, name, description, difficulty
+      )
 
       sendDataToParent()
 
