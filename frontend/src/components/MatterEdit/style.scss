@@ -24,6 +24,11 @@ body:has(.cover) {
     max-width: 800px;
     width: 90%;
 
+    .matter-nav {
+      display: flex;
+      gap: 1rem;
+    }
+
     #name {
       border-radius: 1rem;
       height: 3.25rem;

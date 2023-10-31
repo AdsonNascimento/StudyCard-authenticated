@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '../ContainerDashboard/index.jsx'
-import { updateMatter } from '../../services/api.js'
+import { updateMatter, deleteMatter } from '../../services/api.js'
+import { useNavigate } from 'react-router-dom'
 import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
@@ -12,6 +13,9 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
   const [isLoading, setIsLoading] = useState(false)
   const [popupData, setPopupData] = useState(null);
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
+  const matterId = dataMatter.id
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (dataMatter) {
@@ -32,13 +36,49 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
 
       sendDataToParent()
 
-      setPopupData({ type: 'success', text: "Cadastro realizado com sucesso!" });
+      setPopupData({
+        type: 'success',
+        text: "Atualização realizada com sucesso!",
+        seconds: 2
+      });
 
     } catch (error) {
       console.error(error.message)
-      setPopupData({ type: 'error', text: "Não foi possivel realizar o cadastro da máteria. Tente novamente mais tarde!" });
+
+      setPopupData({
+        type: 'error',
+        text: "Não foi possivel realizar a atualização da máteria. Tente novamente mais tarde!",
+        seconds: 2
+      });
     }
     setIsLoading(false)
+  }
+
+  const deleteThisMatter = async () => {
+    try {
+      await deleteMatter(emailUser, matterId)
+
+      sendDataToParent()
+
+      setPopupData({
+        type: 'success',
+        text: "Exclusão realizada com sucesso! Você será redirecionado.",
+        seconds: 2
+      });
+
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 3000);
+      
+    } catch (error) {
+      console.error(error.message)
+
+      setPopupData({
+        type: 'error',
+        text: "Não foi possivel realizar a exclusão da matéria. Tente novamente mais tarde!"
+      });
+
+    }
   }
 
   if (isOpen) {
@@ -48,7 +88,11 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
           <Container.Root>
             <Container.Header>
               <Container.Title>Editar matéria</Container.Title>
-              <Container.IconClose onClick={setModalOpen} />
+
+              <div className='matter-nav'>
+                <Container.IconTrash onClick={deleteThisMatter} />
+                <Container.IconClose onClick={setModalOpen} />
+              </div>
             </Container.Header>
             <Container.Divisor />
             <form onSubmit={handleSubmit}>
@@ -140,7 +184,6 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
                   />
                 </label>
               </fieldset>
-
 
               <ButtonLoader type='submit' className={`btn ${isLoading ? "loading" : ""}`}>
                 atualizar

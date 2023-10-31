@@ -102,3 +102,17 @@ export const updateMatter = async (email, id, discipline, description, difficult
         handleApiError(error);
     }
 }
+
+export const deleteMatter = async (email, id ) => {
+    try {
+        const response = await api.delete(`/discipline/${email}/${id}`);
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}
