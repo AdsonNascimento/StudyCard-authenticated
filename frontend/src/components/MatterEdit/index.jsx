@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
+import DifficultyInput from '../DifficultyInput/index.jsx'
 
-function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
+function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -16,7 +17,6 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
   const matterId = dataMatter.id
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (dataMatter) {
       setName(dataMatter.discipline);
@@ -24,6 +24,10 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
       setDifficulty(`${dataMatter.difficulty}`);
     }
   }, [dataMatter]);
+
+  const handleChangeDifficulty = (newDifficulty) => {
+    setDifficulty(newDifficulty);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -69,7 +73,7 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
       setTimeout(() => {
         navigate('/dashboard');
       }, 3000);
-      
+
     } catch (error) {
       console.error(error.message)
 
@@ -83,7 +87,7 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
 
   if (isOpen) {
     return (
-      <section className="cover" onClick={setModalOpen} >
+      <section className="cover" onClick={setOpenEditModal} >
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <Container.Root>
             <Container.Header>
@@ -91,7 +95,7 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
 
               <div className='matter-nav'>
                 <Container.IconTrash onClick={deleteThisMatter} />
-                <Container.IconClose onClick={setModalOpen} />
+                <Container.IconClose onClick={setOpenEditModal} />
               </div>
             </Container.Header>
             <Container.Divisor />
@@ -117,73 +121,10 @@ function MatterEdit({ isOpen, setModalOpen, sendDataToParent, dataMatter }) {
                 />
               </label>
 
-              <fieldset>
-                <legend>Selecione a dificuldade:</legend>
-                <label htmlFor="very-easy">
-                  Muito fácil
-                  <input
-                    id="very-easy"
-                    type="radio"
-                    value="1"
-                    checked={difficulty === "1"}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                    name="difficulty"
-                    required
-                  />
-                </label>
-
-                <label htmlFor="easy">
-                  Fácil
-                  <input
-                    id="easy"
-                    type="radio"
-                    value="2"
-                    checked={difficulty === "2"}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                    name="difficulty"
-                    required
-                  />
-                </label>
-
-                <label htmlFor="medium">
-                  Médio
-                  <input
-                    id="medium"
-                    type="radio"
-                    value="3"
-                    checked={difficulty === "3"}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                    name="difficulty"
-                    required
-                  />
-                </label>
-
-                <label htmlFor="hard">
-                  Difícil
-                  <input
-                    id="hard"
-                    type="radio"
-                    value="4"
-                    checked={difficulty === "4"}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                    name="difficulty"
-                    required
-                  />
-                </label>
-
-                <label htmlFor="very-hard">
-                  Muito difícil
-                  <input
-                    id="very-hard"
-                    type="radio"
-                    value="5"
-                    checked={difficulty === "5"}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                    name="difficulty"
-                    required
-                  />
-                </label>
-              </fieldset>
+              <DifficultyInput
+                difficulty={difficulty}
+                setDifficulty={handleChangeDifficulty}
+              />
 
               <ButtonLoader type='submit' className={`btn ${isLoading ? "loading" : ""}`}>
                 atualizar

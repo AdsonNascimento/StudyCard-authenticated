@@ -1,7 +1,7 @@
 import axios from "axios";
 import handleApiError from '../tools/handleApiError.js';
 
-let BASE_URL = "http://localhost:3001";
+let BASE_URL = "http://localhost:5000";
 
 if (process.env.NODE_ENV === "production") {
     BASE_URL = "https://bksc.onrender.com";

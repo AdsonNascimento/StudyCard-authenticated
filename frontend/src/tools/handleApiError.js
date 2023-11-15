@@ -1,6 +1,6 @@
 export default function handleApiError(error) {
     if (error.response.status === 422) {
-        throw new Error(`Erro de resposta do servidor: email já cadastrado.`);
+        throw new Error(`Erro de resposta do servidor`);
     }
 
     if (error.response) {

@@ -8,6 +8,7 @@ import CatError from '../../assets/cat.webp'
 import Loading from '../../components/Loading'
 import HeaderLogin from '../../components/HeaderLogin'
 import MatterEdit from '../../components/MatterEdit'
+import NewCard from '../../components/CardNew'
 import './style.scss'
 
 function Matter() {
@@ -16,7 +17,8 @@ function Matter() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
-  const [openModal, setModalOpen] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [newCard, setNewCard] = useState(false)
 
   const fetchMatter = async () => {
     setLoading(true);
@@ -66,8 +68,8 @@ function Matter() {
 
 
               <div className='matter-nav'>
-                <Container.IconEdit onClick={() => setModalOpen(true)} />
-                <Container.IconPlus />
+                <Container.IconEdit onClick={() => setOpenEditModal(true)} />
+                <Container.IconPlus onClick={() => setNewCard(true)} />
               </div>
 
             </Container.Header>
@@ -101,9 +103,15 @@ function Matter() {
         </section>
         <section className="dois"></section>
         <MatterEdit 
-          isOpen={openModal} 
-          setModalOpen={() => setModalOpen(!openModal)} 
+          isOpen={openEditModal} 
+          setOpenEditModal={() => setOpenEditModal(!openEditModal)} 
           dataMatter={data}
+          sendDataToParent={receiveDataFromChild}
+        />
+        <NewCard 
+          isOpen={newCard} 
+          setNewCard={() => setNewCard(!newCard)} 
+          userData={data}
           sendDataToParent={receiveDataFromChild}
         />
       </main>
