@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '../../components/ContainerDashboard'
+import { Container } from '../../components/ContainerDashboard';
+import { Icon } from '../Icons/';
 import { listMatters } from '../../services/api';
 import { Link } from 'react-router-dom';
 
@@ -49,7 +50,7 @@ export default function Matters() {
       <Container.Root>
         <Container.Header>
           <Container.Title>Matters</Container.Title>
-          <Container.IconPlus onClick={() => setModalOpen(true)} />
+          <Icon.Plus onClick={() => setModalOpen(true)} />
         </Container.Header>
         <Container.Divisor />
 

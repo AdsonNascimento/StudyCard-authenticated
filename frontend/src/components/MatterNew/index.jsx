@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createMatter } from '../../services/api.js';
 import { Container } from '../ContainerDashboard/index.jsx';
+import { Icon } from '../Icons/'
 import ButtonLoader from '../ButtonLoader/index.jsx';
 import PopupWrapper from '../PopupWrapper/index.jsx';
 import './style.scss';
@@ -24,7 +25,6 @@ function MatterNew({ isOpen, setModalOpen, sendDataToParent }) {
     setIsLoading(true);
 
     try {
-      console.log(difficulty)
       await createMatter(emailUser, name, description, difficulty);
 
       // Limpar parâmetros
@@ -50,7 +50,7 @@ function MatterNew({ isOpen, setModalOpen, sendDataToParent }) {
           <Container.Root>
             <Container.Header>
               <Container.Title>Matters</Container.Title>
-              <Container.IconClose onClick={setModalOpen} />
+              <Icon.Close onClick={setModalOpen} />
             </Container.Header>
             <Container.Divisor />
             <form onSubmit={handleSubmit}>

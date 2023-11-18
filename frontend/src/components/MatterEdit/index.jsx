@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '../ContainerDashboard/index.jsx'
+import { Icon } from '../Icons/'
 import { updateMatter, deleteMatter } from '../../services/api.js'
 import { useNavigate } from 'react-router-dom'
 import ButtonLoader from '../ButtonLoader/index.jsx'
@@ -94,8 +95,8 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
               <Container.Title>Editar matéria</Container.Title>
 
               <div className='matter-nav'>
-                <Container.IconTrash onClick={deleteThisMatter} />
-                <Container.IconClose onClick={setOpenEditModal} />
+                <Icon.Trash onClick={deleteThisMatter} />
+                <Icon.Close onClick={setOpenEditModal} />
               </div>
             </Container.Header>
             <Container.Divisor />
