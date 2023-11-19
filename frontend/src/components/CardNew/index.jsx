@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '../ContainerDashboard/index.jsx'
-import { updateMatter, deleteMatter } from '../../services/api.js'
-import { useNavigate } from 'react-router-dom'
+import { createCard } from '../../services/api.js'
 import ButtonLoader from '../ButtonLoader/index.jsx'
 import PopupWrapper from '../PopupWrapper/index.jsx'
 import ProgresiveInput from '../ProgresiveInput'
-import './style.scss'
 import DifficultyInput from '../DifficultyInput/index.jsx'
+import './style.scss'
 
 function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
   const [question, setQuestion] = useState('');
@@ -15,7 +14,7 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
   const [popupData, setPopupData] = useState(null);
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
   const matterId = userData.id
-  const navigate = useNavigate();
+  const [responses, setResponses] = useState([])
 
   const handleChangeDifficulty = (newDifficulty) => {
     setDifficulty(newDifficulty)
@@ -25,16 +24,47 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
     e.preventDefault()
     setIsLoading(true)
 
-    try {
-      // await updateMatter(
-      //   emailUser, userData.id, name, description, difficulty
-      // )
+    if (!question || !difficulty) {
+      setPopupData({
+        type: 'error',
+        text: 'Por favor, preencha todos os campos antes de enviar.',
+        seconds: 2,
+      });
+      setIsLoading(false);
+      return;
+    }
 
-      sendDataToParent()
+    // Verificar se todos os text são diferentes de ""
+  if (responses.some((response) => response.text === "")) {
+    setPopupData({
+      type: 'error',
+      text: 'Todos os campos de texto devem ser preenchidos.',
+      seconds: 2,
+    });
+    setIsLoading(false);
+    return;
+  }
+
+  // Verificar se há exatamente um correctResponse === true
+  const correctResponsesCount = responses.filter((response) => response.correctResponse === true).length;
+  if (correctResponsesCount !== 1) {
+    setPopupData({
+      type: 'error',
+      text: 'Selecione uma resposta correta.',
+      seconds: 2,
+    });
+    setIsLoading(false);
+    return;
+  }
+
+    try {
+      await createCard(matterId, question, responses, difficulty)
+
+      // sendDataToParent()
 
       setPopupData({
         type: 'success',
-        text: "Atualização realizada com sucesso!",
+        text: "Novo card adicionado com sucesso!",
         seconds: 2
       });
 
@@ -48,6 +78,10 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
       });
     }
     setIsLoading(false)
+  }
+
+  const handleResponses = (inputs) => {
+    setResponses(inputs)
   }
 
   if (isOpen) {
@@ -73,15 +107,16 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
                 />
               </label>
 
-              <ProgresiveInput 
+              <ProgresiveInput
                 matter={matterId}
                 legend="Opções:"
+                transmitValue={handleResponses}
               />
 
-             <DifficultyInput setDifficulty={handleChangeDifficulty}/>
+              <DifficultyInput setDifficulty={handleChangeDifficulty} />
 
               <ButtonLoader type='submit' className={`btn ${isLoading ? "loading" : ""}`}>
-                atualizar
+                Cadastrar
               </ButtonLoader>
             </form>
           </Container.Root>

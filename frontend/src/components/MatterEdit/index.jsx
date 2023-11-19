@@ -9,14 +9,15 @@ import './style.scss'
 import DifficultyInput from '../DifficultyInput/index.jsx'
 
 function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [difficulty, setDifficulty] = useState('');
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [difficulty, setDifficulty] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [popupData, setPopupData] = useState(null);
+  const [popupData, setPopupData] = useState(null)
+  
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
   const matterId = dataMatter.id
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (dataMatter) {
@@ -35,8 +36,11 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
     setIsLoading(true)
 
     try {
+      console.log(
+        emailUser, matterId, name, description, difficulty
+      )
       await updateMatter(
-        emailUser, dataMatter.id, name, description, difficulty
+        emailUser, matterId, name, description, difficulty
       )
 
       sendDataToParent()

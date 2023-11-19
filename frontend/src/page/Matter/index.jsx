@@ -9,6 +9,7 @@ import Loading from '../../components/Loading'
 import HeaderLogin from '../../components/HeaderLogin'
 import MatterEdit from '../../components/MatterEdit'
 import NewCard from '../../components/CardNew'
+import PopupWrapper from '../../components/PopupWrapper'
 import './style.scss'
 
 function Matter() {
@@ -19,28 +20,23 @@ function Matter() {
   const [data, setData] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false)
   const [newCard, setNewCard] = useState(false)
+  const [popupData, setPopupData] = useState(null);
 
   const fetchMatter = async () => {
     setLoading(true);
-    setError(false);
 
     try {
       const response = await showMatter(email, id);
-
-      if (response.data) {
-        setData(response.data[0]);
-      } else {
-        setError(true);
-      }
+      setData(response.data[0]);
     } catch (error) {
-      setError(true);
       console.error('Erro ao buscar os dados da matéria:', error);
+      setPopupData({ type: 'error', text: error.message });
     }
 
     setLoading(false);
   }
 
-  const receiveDataFromChild = () => {
+  const receiveDataFromMatter = () => {
     fetchMatter();
   }
 
@@ -102,18 +98,20 @@ function Matter() {
           </Container.Root>
         </section>
         <section className="dois"></section>
-        <MatterEdit 
-          isOpen={openEditModal} 
-          setOpenEditModal={() => setOpenEditModal(!openEditModal)} 
+        <MatterEdit
+          isOpen={openEditModal}
+          setOpenEditModal={() => setOpenEditModal(!openEditModal)}
           dataMatter={data}
-          sendDataToParent={receiveDataFromChild}
+          sendDataToParent={receiveDataFromMatter}
         />
-        <NewCard 
-          isOpen={newCard} 
-          setNewCard={() => setNewCard(!newCard)} 
+        <NewCard
+          isOpen={newCard}
+          setNewCard={() => setNewCard(!newCard)}
           userData={data}
-          sendDataToParent={receiveDataFromChild}
+          sendDataToParent={receiveDataFromMatter}
         />
+
+        <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
       </main>
     </>
   )

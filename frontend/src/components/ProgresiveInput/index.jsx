@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Icon } from '../Icons/'
 import './style.scss'
 
-function ProgresiveInput({ matter, card, legend }) {
+function ProgresiveInput({ matter, card, legend, transmitValue }) {
   const initialResponse = [
     { id: 1, text: '', correctResponse: false },
     { id: 2, text: '', correctResponse: false },
@@ -12,12 +12,13 @@ function ProgresiveInput({ matter, card, legend }) {
   const addResponse = () => {
     setInputs(prevResponse => {
       if (prevResponse.length < 5) {
-
-        return [
+        const newResponse = [
           ...prevResponse,
           { id: prevResponse.length + 1, text: '', correctResponse: false }
         ]
 
+        transmitValue(newResponse)
+        return newResponse
       } else {
         return prevResponse
       }
@@ -30,6 +31,7 @@ function ProgresiveInput({ matter, card, legend }) {
         let newArr = [...prevResponse]
         newArr.splice(-1, 1)
 
+        transmitValue(newArr)
         return newArr
       } else {
         return prevResponse
@@ -37,26 +39,30 @@ function ProgresiveInput({ matter, card, legend }) {
     })
   }
 
-  const handleTextChange = (index, value) => {
+  const handleTextChange = (index, value = undefined) => {
+
     setInputs(prevText => {
       const updateText = [...prevText]
       updateText[index].text = value
 
+      transmitValue(updateText)
       return updateText
     })
   }
 
-  const handleCorrectResponseChange = (index, checked) => {
+  const handleCorrerctResponsesChange = (index) => {
     setInputs((prevCorrectResponses) => {
-      return prevCorrectResponses.map((response, key) => {
+      const updateInputs = prevCorrectResponses.map((response, key) => {
         return {
           ...response,
           correctResponse: key === index ? true : false,
-        };
-      });
-    });
-  };
-  
+        }
+      })
+
+      transmitValue(updateInputs)
+      return updateInputs
+    })
+  }
 
   return (
     <fieldset className='responses'>
@@ -72,7 +78,7 @@ function ProgresiveInput({ matter, card, legend }) {
       <div className='response-input'>
 
         {inputs.map((response, index) => (
-          <label id={`response-${matter}-${card}-${response.id}`} htmlFor={response.id} key={index}>
+          <label htmlFor={response.id} key={index}>
             <span>Opção {response.id}</span>
 
             <input
@@ -87,7 +93,7 @@ function ProgresiveInput({ matter, card, legend }) {
               value={response.id}
               name="correct-response"
               checked={response.correctResponse}
-              onChange={(event) => handleCorrectResponseChange(index, event.target.checked)}
+              onChange={() => handleCorrerctResponsesChange(index)}
             />
           </label>
         ))}

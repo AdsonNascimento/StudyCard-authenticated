@@ -2,9 +2,11 @@ import { sql } from "../database/db.js";
 
 class CardController {
     async list(req, res) {
+        const { disciplineId } = req.params
+
         try {
             const cards = await sql`
-                SELECT * FROM tb_card;
+                SELECT * FROM tb_card WHERE id_discipline = ${disciplineId};
             `;
 
             return res.json(cards);

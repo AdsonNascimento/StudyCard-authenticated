@@ -116,3 +116,22 @@ export const deleteMatter = async (email, id ) => {
         handleApiError(error);
     }
 }
+
+export const createCard = async (disciplineId, question, answers, initialDifficulty) => {
+    try {
+        const response = await api.post(
+            '/card',
+            {
+                disciplineId, 
+                question, 
+                answers, 
+                initialDifficulty
+            }
+        )
+
+        return response
+    } catch (error) {
+        handleApiError(error)
+        throw error
+    }
+}
