@@ -20,6 +20,10 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
     setDifficulty(newDifficulty)
   }
 
+  const handleResponses = (inputs) => {
+    setResponses(inputs)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
@@ -60,12 +64,19 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
     try {
       await createCard(matterId, question, responses, difficulty)
 
+      setQuestion('')
+      setDifficulty('')
+
+      setTimeout(() => {
+        setNewCard()
+      }, 1000)
+    
       // sendDataToParent()
 
       setPopupData({
         type: 'success',
         text: "Novo card adicionado com sucesso!",
-        seconds: 2
+        seconds: 1
       });
 
     } catch (error) {
@@ -78,10 +89,6 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
       });
     }
     setIsLoading(false)
-  }
-
-  const handleResponses = (inputs) => {
-    setResponses(inputs)
   }
 
   if (isOpen) {

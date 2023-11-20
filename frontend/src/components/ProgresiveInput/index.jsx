@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Icon } from '../Icons/'
 import './style.scss'
 
-function ProgresiveInput({ matter, card, legend, transmitValue }) {
+function ProgresiveInput({ legend, transmitValue }) {
   const initialResponse = [
     { id: 1, text: '', correctResponse: false },
     { id: 2, text: '', correctResponse: false },

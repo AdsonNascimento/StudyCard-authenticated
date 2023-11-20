@@ -12,7 +12,7 @@ function PopupWrapper(props) {
     if (popupData) {
       const timer = setTimeout(() => {
         handleClosePopup();
-      }, popupData.seconds * 995);
+      }, popupData.seconds * 1000);
 
       return () => {
         clearTimeout(timer);
@@ -26,7 +26,7 @@ function PopupWrapper(props) {
         <Popup
           type={popupData.type}
           text={popupData.text}
-          seconds={popupData.seconds = 4}
+          seconds={popupData.seconds}
           onClose={handleClosePopup}
         />
       )}
