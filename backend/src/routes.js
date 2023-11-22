@@ -30,7 +30,7 @@ routes.delete('/discipline/:email/:id', DisciplineController.delete);
 
 // Rotas para card
 routes.get('/card', CardController.list);
-routes.get('/card/:id', CardController.show);
+routes.get('/card/:email/:id_discipline', CardController.show);
 routes.post('/card', CardController.create);
 routes.put('/card/:id', CardController.update);
 routes.delete('/card/:id', CardController.delete);

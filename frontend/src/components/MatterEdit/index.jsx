@@ -36,9 +36,6 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
     setIsLoading(true)
 
     try {
-      console.log(
-        emailUser, matterId, name, description, difficulty
-      )
       await updateMatter(
         emailUser, matterId, name, description, difficulty
       )

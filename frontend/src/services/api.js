@@ -73,7 +73,7 @@ export const listMatters = async (email) => {
     }
 }
 
-export const showMatter = async (email, id) => {
+export const showMatter = async (email, id) => { 
     try {
         const response = await api.get(`/discipline/${email}/${id}`);
 
@@ -133,5 +133,19 @@ export const createCard = async (disciplineId, question, answers, initialDifficu
     } catch (error) {
         handleApiError(error)
         throw error
+    }
+}
+
+export const showCards = async (email, id_matter) => { 
+    try {
+        const response = await api.get(`/card/${email}/${id_matter}`);
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
     }
 }

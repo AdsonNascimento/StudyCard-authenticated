@@ -28,5 +28,11 @@
   .questions {
     display: grid;
     gap: 2rem;
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, calc(25% - 1.5rem));
+      gap: 2rem;
+    }
   }
 }

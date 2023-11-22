@@ -185,6 +185,7 @@ class DisciplineController {
                 return res.status(404).json({ message: "Disciplina não encontrada." })
             }
 
+            await sql`DELETE FROM tb_card WHERE id_discipline = ${id}`;
             await sql`DELETE FROM tb_discipline WHERE id = ${id}`
 
             return res.status(204).send()

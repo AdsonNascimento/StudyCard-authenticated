@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Container } from '../../components/ContainerDashboard'
-import { showMatter } from '../../services/api'
+import { showMatter, showCards } from '../../services/api'
 import { Link } from 'react-router-dom'
 
 import CatError from '../../assets/cat.webp'
@@ -17,7 +17,8 @@ function Matter() {
   const email = JSON.parse(localStorage.getItem('authenticated')).email;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [data, setData] = useState([]);
+  const [dataMatter, setDataMatter] = useState([]);
+  const [dataCards, setDataCards] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false)
   const [newCard, setNewCard] = useState(false)
   const [popupData, setPopupData] = useState(null);
@@ -27,9 +28,23 @@ function Matter() {
 
     try {
       const response = await showMatter(email, id);
-      setData(response.data[0]);
+      setDataMatter(response.data[0]);
     } catch (error) {
       console.error('Erro ao buscar os dados da matéria:', error);
+      setPopupData({ type: 'error', text: error.message });
+    }
+
+    setLoading(false);
+  }
+
+  const fetchCards = async () => {
+    setLoading(true);
+
+    try {
+      const response = await showCards(email, id);
+      setDataCards(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar os dados da cads:', error);
       setPopupData({ type: 'error', text: error.message });
     }
 
@@ -40,8 +55,13 @@ function Matter() {
     fetchMatter();
   }
 
+  const receiveDataFromCards = () => {
+    fetchCards();
+  }
+
   useEffect(() => {
     fetchMatter()
+    fetchCards()
   }, [])
 
   return (
@@ -50,7 +70,6 @@ function Matter() {
       <main id='matter'>
         <section className="questions">
 
-
           <Container.Root>
             <Container.Header>
               <Link to="/dashboard">
@@ -58,8 +77,8 @@ function Matter() {
               </Link>
 
               <div className='matter-title'>
-                <Container.Title>{data.discipline}</Container.Title>
-                {!!data.description ? <p className='description'>{data.description}</p> : null}
+                <Container.Title>{dataMatter.discipline}</Container.Title>
+                {!!dataMatter.description ? <p className='description'>{dataMatter.description}</p> : null}
               </div>
 
 
@@ -77,21 +96,14 @@ function Matter() {
                 <Loading />
               </div>
 
-            ) : error ? (
-
-              <div className='is-matter'>
-                <h1>Cadê seus cards?</h1>
-                <img src={CatError} alt="cadastre agora" />
-              </div>
-
             ) : (
 
               <Container.Cards>
-                {/* {data.map(item => (
+                {dataCards.map(item => (
                   <Container.Card key={item.id}>
-                    <Container.Title>{item.discipline}</Container.Title>
+                    <Container.Text>{item.question}</Container.Text>
                   </Container.Card>
-                ))} */}
+                ))}
               </Container.Cards>
 
             )}
@@ -101,14 +113,14 @@ function Matter() {
         <MatterEdit
           isOpen={openEditModal}
           setOpenEditModal={() => setOpenEditModal(!openEditModal)}
-          dataMatter={data}
+          dataMatter={dataMatter}
           sendDataToParent={receiveDataFromMatter}
         />
         <NewCard
           isOpen={newCard}
           setNewCard={() => setNewCard(!newCard)}
-          userData={data}
-          sendDataToParent={receiveDataFromMatter}
+          userData={dataMatter}
+          sendDataToParent={receiveDataFromCards}
         />
 
         <PopupWrapper popupData={popupData} setPopupData={setPopupData} />

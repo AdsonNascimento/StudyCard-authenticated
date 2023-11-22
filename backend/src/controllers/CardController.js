@@ -18,10 +18,18 @@ class CardController {
 
     async show(req, res) {
         try {
-            const { id } = req.params;
+            const { email, id_discipline } = req.params;
+
+            const idUser = await sql`
+                SELECT id FROM tb_user WHERE email = ${email};
+            `
+
+            if (idUser.length === 0) {
+                return res.status(422).json({ message: `Error in data validation` });
+            } 
 
             const card = await sql`
-                SELECT * FROM tb_card WHERE id = ${id};
+                SELECT * FROM tb_card WHERE id_discipline = ${id_discipline};
             `;
 
             if (card.length === 0) {
@@ -101,6 +109,25 @@ class CardController {
     }
 
     async delete(req, res) {
+        try {
+            const { id } = req.params;
+
+            const card = await sql`SELECT * FROM tb_card WHERE id = ${id}`;
+
+            if (card.length === 0) {
+                return res.status(404).json({ message: "Card não encontrado." });
+            }
+
+            await sql`DELETE FROM tb_card WHERE id = ${id}`;
+
+            return res.status(204).send();
+        } catch (error) {
+            console.error("Erro ao excluir card: ", error);
+            return res.status(500).json({ error: "Internal server error." });
+        }
+    }
+
+    async deleteAllForDiscipline(req, res) {
         try {
             const { id } = req.params;
 
