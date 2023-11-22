@@ -12,11 +12,46 @@ import NewCard from '../../components/CardNew'
 import PopupWrapper from '../../components/PopupWrapper'
 import './style.scss'
 
+function limiterCaracteres(text, limit) {
+  if (text.length >= limit) {
+    const newText = text.substring(0, limit) + '...'
+
+    return newText
+  }
+
+  return text
+}
+
+function checkDifficulty(difficulty) {
+  switch (difficulty) {
+    case 1:
+      difficulty = "muito fácil"
+      break
+
+    case 2:
+      difficulty = "fácil"
+      break
+
+    case 3:
+      difficulty = "médio"
+      break
+
+    case 4:
+      difficulty = "difícil"
+      break
+
+    case 5:
+      difficulty = "muito difícil"
+      break
+  }
+
+  return difficulty
+}
+
 function Matter() {
   const { id } = useParams()
   const email = JSON.parse(localStorage.getItem('authenticated')).email;
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [dataMatter, setDataMatter] = useState([]);
   const [dataCards, setDataCards] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -43,6 +78,7 @@ function Matter() {
     try {
       const response = await showCards(email, id);
       setDataCards(response.data);
+
     } catch (error) {
       console.error('Erro ao buscar os dados da cads:', error);
       setPopupData({ type: 'error', text: error.message });
@@ -96,16 +132,31 @@ function Matter() {
                 <Loading />
               </div>
 
-            ) : (
-
+            ) : dataCards.length !== 0 ? (
               <Container.Cards>
                 {dataCards.map(item => (
                   <Container.Card key={item.id}>
-                    <Container.Text>{item.question}</Container.Text>
+                    <Container.Text>
+                      {
+                        limiterCaracteres(item.question, 100)
+                      }
+                    </Container.Text>
+                    <Container.Tags>
+                      <Container.Tag>
+                        {
+                          checkDifficulty(item.initial_difficulty)
+                        }
+                      </Container.Tag>
+                    </Container.Tags>
                   </Container.Card>
                 ))}
               </Container.Cards>
 
+            ) : (
+              <div className='is-matter'>
+                <h1>Cadê seus cards?</h1>
+                <img src={CatError} alt="cadastre agora" />
+              </div>
             )}
           </Container.Root>
         </section>

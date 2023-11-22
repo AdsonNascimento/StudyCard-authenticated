@@ -8,31 +8,31 @@
   gap: 2rem;
   flex: 1 400px;
 
-  .matter-title {
-    text-align: center;
-
-    h2 {
-      font-size: 2rem;
-    }
-
-    .description {
-      font-size: 1.25rem;
-    }
-  }
-
-  .matter-nav {
-    display: flex;
-    gap: 1rem;
-  }
-
   .questions {
     display: grid;
     gap: 2rem;
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, calc(25% - 1.5rem));
-      gap: 2rem;
+    .matter-title {
+      text-align: center;
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .description {
+        font-size: 1.25rem;
+      }
+    }
+
+    .matter-nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .container-dashboard {
+      .cards {
+        grid-template-columns: repeat(3, calc(33% - 1.15rem));
+      }
     }
   }
 }
