@@ -10,43 +10,9 @@ import HeaderLogin from '../../components/HeaderLogin'
 import MatterEdit from '../../components/MatterEdit'
 import NewCard from '../../components/CardNew'
 import PopupWrapper from '../../components/PopupWrapper'
+import limiterCaracteres from '../../tools/limiterCaracteres'
+import checkDifficulty from '../../tools/checkDifficulty'
 import './style.scss'
-
-function limiterCaracteres(text, limit) {
-  if (text.length >= limit) {
-    const newText = text.substring(0, limit) + '...'
-
-    return newText
-  }
-
-  return text
-}
-
-function checkDifficulty(difficulty) {
-  switch (difficulty) {
-    case 1:
-      difficulty = "muito fácil"
-      break
-
-    case 2:
-      difficulty = "fácil"
-      break
-
-    case 3:
-      difficulty = "médio"
-      break
-
-    case 4:
-      difficulty = "difícil"
-      break
-
-    case 5:
-      difficulty = "muito difícil"
-      break
-  }
-
-  return difficulty
-}
 
 function Matter() {
   const { id } = useParams()
@@ -54,7 +20,7 @@ function Matter() {
   const [loading, setLoading] = useState(true);
   const [dataMatter, setDataMatter] = useState([]);
   const [dataCards, setDataCards] = useState([]);
-  const [openEditModal, setOpenEditModal] = useState(false)
+  const [openEditMatter, setOpenEditMatter] = useState(false)
   const [newCard, setNewCard] = useState(false)
   const [popupData, setPopupData] = useState(null);
 
@@ -119,7 +85,7 @@ function Matter() {
 
 
               <div className='matter-nav'>
-                <Container.IconEdit onClick={() => setOpenEditModal(true)} />
+                <Container.IconEdit onClick={() => setOpenEditMatter(true)} />
                 <Container.IconPlus onClick={() => setNewCard(true)} />
               </div>
 
@@ -137,15 +103,11 @@ function Matter() {
                 {dataCards.map(item => (
                   <Container.Card key={item.id}>
                     <Container.Text>
-                      {
-                        limiterCaracteres(item.question, 100)
-                      }
+                      { limiterCaracteres(item.question, 100) }
                     </Container.Text>
                     <Container.Tags>
                       <Container.Tag>
-                        {
-                          checkDifficulty(item.initial_difficulty)
-                        }
+                        { checkDifficulty(item.initial_difficulty) }
                       </Container.Tag>
                     </Container.Tags>
                   </Container.Card>
@@ -153,17 +115,19 @@ function Matter() {
               </Container.Cards>
 
             ) : (
+
               <div className='is-matter'>
                 <h1>Cadê seus cards?</h1>
                 <img src={CatError} alt="cadastre agora" />
               </div>
+
             )}
           </Container.Root>
         </section>
         <section className="dois"></section>
         <MatterEdit
-          isOpen={openEditModal}
-          setOpenEditModal={() => setOpenEditModal(!openEditModal)}
+          isOpen={openEditMatter}
+          setOpenEditModal={() => setOpenEditModal(!openEditMatter)}
           dataMatter={dataMatter}
           sendDataToParent={receiveDataFromMatter}
         />

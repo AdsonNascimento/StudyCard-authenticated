@@ -89,7 +89,7 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
 
   if (isOpen) {
     return (
-      <section className="cover" onClick={setOpenEditModal} >
+      <section className="cover" onClick={setOpenEditMatter} >
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <Container.Root>
             <Container.Header>
@@ -97,7 +97,7 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
 
               <div className='matter-nav'>
                 <Icon.Trash onClick={deleteThisMatter} />
-                <Icon.Close onClick={setOpenEditModal} />
+                <Icon.Close onClick={setOpenEditMatter} />
               </div>
             </Container.Header>
             <Container.Divisor />
