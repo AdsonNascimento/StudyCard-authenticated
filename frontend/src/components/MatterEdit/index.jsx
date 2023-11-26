@@ -8,13 +8,13 @@ import PopupWrapper from '../PopupWrapper/index.jsx'
 import './style.scss'
 import DifficultyInput from '../DifficultyInput/index.jsx'
 
-function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) {
+function MatterEdit({ isOpen, setOpenEditMatter, sendDataToParent, dataMatter }) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [difficulty, setDifficulty] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [popupData, setPopupData] = useState(null)
-  
+
   const emailUser = JSON.parse(localStorage.getItem('authenticated')).email
   const matterId = dataMatter.id
   const navigate = useNavigate()
@@ -74,7 +74,7 @@ function MatterEdit({ isOpen, setOpenEditModal, sendDataToParent, dataMatter }) 
 
       setTimeout(() => {
         navigate('/dashboard');
-      }, 3000);
+      }, 2000);
 
     } catch (error) {
       console.error(error.message)

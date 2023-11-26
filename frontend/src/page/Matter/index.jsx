@@ -13,6 +13,7 @@ import PopupWrapper from '../../components/PopupWrapper'
 import limiterCaracteres from '../../tools/limiterCaracteres'
 import checkDifficulty from '../../tools/checkDifficulty'
 import './style.scss'
+import { Icon } from '../../components/Icons'
 
 function Matter() {
   const { id } = useParams()
@@ -103,13 +104,16 @@ function Matter() {
                 {dataCards.map(item => (
                   <Container.Card key={item.id}>
                     <Container.Text>
-                      { limiterCaracteres(item.question, 100) }
+                      {limiterCaracteres(item.question, 55)}
                     </Container.Text>
-                    <Container.Tags>
-                      <Container.Tag>
-                        { checkDifficulty(item.initial_difficulty) }
-                      </Container.Tag>
-                    </Container.Tags>
+                    <div className='nav-card'>
+                      <Container.Tags>
+                        <Container.Tag>
+                          {checkDifficulty(item.initial_difficulty)}
+                        </Container.Tag>
+                      </Container.Tags>
+                      <Icon.Edit />
+                    </div>
                   </Container.Card>
                 ))}
               </Container.Cards>
@@ -124,10 +128,12 @@ function Matter() {
             )}
           </Container.Root>
         </section>
+
         <section className="dois"></section>
+
         <MatterEdit
           isOpen={openEditMatter}
-          setOpenEditModal={() => setOpenEditModal(!openEditMatter)}
+          setOpenEditMatter={() => setOpenEditMatter(!openEditMatter)}
           dataMatter={dataMatter}
           sendDataToParent={receiveDataFromMatter}
         />

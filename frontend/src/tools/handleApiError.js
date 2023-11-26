@@ -3,6 +3,12 @@ export default function handleApiError(error) {
         throw new Error(`Erro de resposta do servidor`);
     }
 
+    if (error.response.status === 401) {
+        localStorage.removeItem('authenticated');
+        localStorage.removeItem('token');
+        throw new Error(`Token de acesso não é valido, realize o login novamente`);
+    }
+
     if (error.response) {
         // A solicitação foi feita, mas o servidor retornou um status diferente de 2xx
         throw new Error(`Erro de resposta do servidor: Status ${error.response.status}`);

@@ -41,7 +41,12 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      cursor: pointer;
+      transition: 0.3s box-shadow;
+      
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 5px $blue;
+      }
 
       p {
         font-size: 1.4rem;
@@ -53,7 +58,8 @@
         gap: .5rem;
         overflow-x: auto;
         align-items: flex-start;
-        margin-top: 2rem;
+        margin-top: 1rem;
+        width: 90%;
 
         span {
           font-size: 1.25rem;
