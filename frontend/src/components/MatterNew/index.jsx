@@ -35,10 +35,10 @@ function MatterNew({ isOpen, setModalOpen, sendDataToParent }) {
 
       sendDataToParent();
 
-      setPopupData({ type: 'success', text: 'Cadastro realizado com sucesso!' });
+      setPopupData({ type: 'success', text: 'Cadastro realizado com sucesso!', seconds: 1 });
     } catch (error) {
       console.error(error.message);
-      setPopupData({ type: 'error', text: 'Não foi possível realizar o cadastro da matéria. Tente novamente mais tarde!' });
+      setPopupData({ type: 'error', text: 'Não foi possível realizar o cadastro da matéria. Tente novamente mais tarde!', seconds: 2 });
     }
     setIsLoading(false);
   };

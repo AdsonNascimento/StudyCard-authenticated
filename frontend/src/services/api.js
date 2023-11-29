@@ -43,12 +43,12 @@ export const createMatter = async (emailUser, matterName, matterDescription, mat
     try {
         const difficulty = parseInt(matterDifficulty);
         const response = await api.post(
-            '/discipline', 
-            { 
-                email: emailUser, 
-                discipline: matterName, 
-                description: matterDescription, 
-                difficulty 
+            '/discipline',
+            {
+                email: emailUser,
+                discipline: matterName,
+                description: matterDescription,
+                difficulty
             }
         );
 
@@ -73,7 +73,7 @@ export const listMatters = async (email) => {
     }
 }
 
-export const showMatter = async (email, id) => { 
+export const showMatter = async (email, id) => {
     try {
         const response = await api.get(`/discipline/${email}/${id}`);
 
@@ -87,10 +87,10 @@ export const showMatter = async (email, id) => {
     }
 }
 
-export const updateMatter = async (email, id, discipline, description, difficulty ) => {
+export const updateMatter = async (email, id, discipline, description, difficulty) => {
     try {
-        const response = await api.put(`/discipline/${email}/${id}`, 
-            {discipline, description, difficulty}
+        const response = await api.put(`/discipline/${email}/${id}`,
+            { discipline, description, difficulty }
         );
 
         if (response.status < 200 || response.status >= 300) {
@@ -103,7 +103,7 @@ export const updateMatter = async (email, id, discipline, description, difficult
     }
 }
 
-export const deleteMatter = async (email, id ) => {
+export const deleteMatter = async (email, id) => {
     try {
         const response = await api.delete(`/discipline/${email}/${id}`);
 
@@ -122,9 +122,9 @@ export const createCard = async (disciplineId, question, answers, initialDifficu
         const response = await api.post(
             '/card',
             {
-                disciplineId, 
-                question, 
-                answers, 
+                disciplineId,
+                question,
+                answers,
                 initialDifficulty
             }
         )
@@ -136,7 +136,7 @@ export const createCard = async (disciplineId, question, answers, initialDifficu
     }
 }
 
-export const showCards = async (email, id_matter) => { 
+export const showCards = async (email, id_matter) => {
     try {
         const response = await api.get(`/card/${email}/${id_matter}`);
 

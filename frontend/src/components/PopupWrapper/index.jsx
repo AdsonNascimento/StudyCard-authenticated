@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Popup from '../Popup';
+import Popup from './Popup';
 
 function PopupWrapper(props) {
   const { popupData, setPopupData } = props;

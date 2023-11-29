@@ -26,7 +26,7 @@ function Login() {
       // Login bem-sucedido
       await login(email, password);
     } catch (err) {
-      setPopupData({ type: 'error', text: err.message });
+      setPopupData({ type: 'error', text: err.message, seconds: 1 });
     }
 
     setIsLoading(false);
