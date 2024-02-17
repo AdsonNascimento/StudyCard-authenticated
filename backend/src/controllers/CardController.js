@@ -26,7 +26,7 @@ class CardController {
 
             if (idUser.length === 0) {
                 return res.status(422).json({ message: `Error in data validation` });
-            } 
+            }
 
             const card = await sql`
                 SELECT * FROM tb_card WHERE id_discipline = ${id_discipline};
@@ -75,8 +75,15 @@ class CardController {
 
     async update(req, res) {
         try {
-            const { id } = req.params;
+            const { email, idCard } = req.params;
             const { question, answers, initialDifficulty } = req.body;
+
+            const idUser = await sql`
+                SELECT id FROM tb_user WHERE email = ${email};
+            `
+            if (idUser.length === 0) {
+                return res.status(422).json({ message: `Error in data validation` });
+            }
 
             try {
                 if (!question || !answers || !initialDifficulty) {
@@ -87,18 +94,18 @@ class CardController {
                 return res.status(422).json({ message: `Error in data validation` });
             }
 
-            const card = await sql`SELECT * FROM tb_card WHERE id = ${id}`;
+            const card = await sql`SELECT * FROM tb_card WHERE id = ${idCard}`;
 
             if (card.length === 0) {
                 return res.status(404).json({ message: "Card não encontrado." });
             }
 
             await sql`
-                UPDATE tb_card
+                UPDATE tb_card  
                 SET question = ${question},
                     answers = ${answers},
                     initial_difficulty = ${initialDifficulty}
-                WHERE id = ${id};
+                WHERE id = ${idCard};
             `;
 
             return res.status(204).send();

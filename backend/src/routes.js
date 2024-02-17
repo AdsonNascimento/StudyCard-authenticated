@@ -32,7 +32,7 @@ routes.delete('/discipline/:email/:id', DisciplineController.delete);
 routes.get('/card', CardController.list);
 routes.get('/card/:email/:id_discipline', CardController.show);
 routes.post('/card', CardController.create);
-routes.put('/card/:id', CardController.update);
+routes.put('/card/:email/:idCard', CardController.update);
 routes.delete('/card/:id', CardController.delete);
 
 export default routes;

@@ -57,12 +57,11 @@
 
               visibility: hidden;
               opacity: 0;
-              transition: 0.3s opacity, 0.3s box-shadow;
+              transition: 0.3s all;
 
               &:hover {
                 box-shadow: 0 0 10px #fff;
-                animation: 0.3s bg-w-hover ease-in-out ;
-                animation-fill-mode: forwards;
+                animation: 0.3s bg-w-hover ease-in-out forwards;
               }
             }
           }

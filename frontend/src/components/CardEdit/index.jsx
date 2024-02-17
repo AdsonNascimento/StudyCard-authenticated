@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../ContainerDashboard/index.jsx";
-import { createCard } from "../../services/api.js";
+import { updateCard } from "../../services/api.js";
 import ButtonLoader from "../ButtonLoader/index.jsx";
 import PopupWrapper from "../PopupWrapper/index.jsx";
 import ProgresiveInput from "../ProgresiveInput";
 import DifficultyInput from "../DifficultyInput/index.jsx";
 import "./style.scss";
 
-function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
+export default function EditCard({ isOpen, setEditCard, sendDataToParent, matterData, cardData }) {
   const [question, setQuestion] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [popupData, setPopupData] = useState(null);
   const emailUser = JSON.parse(localStorage.getItem("authenticated")).email;
-  const matterId = userData.id;
+  const matterId = matterData.id;
   const [responses, setResponses] = useState([]);
+
+  useEffect(() => {
+    setQuestion(cardData.question)
+    setDifficulty(`${cardData.initial_difficulty}`);
+    setResponses(cardData.answers)
+  }, [isOpen])
 
   const handleChangeDifficulty = (newDifficulty) => {
     setDifficulty(newDifficulty);
@@ -65,20 +71,21 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
     }
 
     try {
-      await createCard(matterId, question, responses, difficulty);
+      await updateCard(emailUser, cardData.id, question, responses, difficulty)
 
-      setQuestion("");
-      setDifficulty("");
+      setQuestion("")
+      setDifficulty("")
+      setResponses([])
 
       setTimeout(() => {
-        setNewCard();
+        setEditCard();
       }, 1000);
 
       sendDataToParent()
 
       setPopupData({
         type: "success",
-        text: "Novo card adicionado com sucesso!",
+        text: "Card atualizado com sucesso!",
         seconds: 1,
       });
     } catch (error) {
@@ -86,7 +93,7 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
 
       setPopupData({
         type: "error",
-        text: "Não foi possivel realizar a atualização da máteria. Tente novamente mais tarde!",
+        text: "Não foi possivel realizar a atualização do card. Tente novamente mais tarde!",
         seconds: 2,
       });
     }
@@ -95,14 +102,14 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
 
   if (isOpen) {
     return (
-      <section className="cover" onClick={setNewCard}>
+      <section className="cover" onClick={setEditCard}>
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <Container.Root>
             <Container.Header>
-              <Container.Title>Novo Card</Container.Title>
+              <Container.Title>Atualizar card</Container.Title>
 
               <div className="matter-nav">
-                <Container.IconClose onClick={setNewCard} />
+                <Container.IconClose onClick={setEditCard} />
               </div>
             </Container.Header>
             <Container.Divisor />
@@ -120,15 +127,19 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
                 matter={matterId}
                 legend="Opções:"
                 transmitValue={handleResponses}
+                arrayResponse={responses}
               />
 
-              <DifficultyInput setDifficulty={handleChangeDifficulty} />
+              <DifficultyInput
+                difficulty={difficulty}
+                setDifficulty={handleChangeDifficulty}
+              />
 
               <ButtonLoader
                 type="submit"
                 className={`btn ${isLoading ? "loading" : ""}`}
               >
-                Cadastrar
+                atualizar
               </ButtonLoader>
             </form>
           </Container.Root>
@@ -140,5 +151,3 @@ function NewCard({ isOpen, setNewCard, sendDataToParent, userData }) {
 
   return null;
 }
-
-export default NewCard;

@@ -14,6 +14,7 @@ import limiterCaracteres from '../../tools/limiterCaracteres'
 import checkDifficulty from '../../tools/checkDifficulty'
 import './style.scss'
 import { Icon } from '../../components/Icons'
+import EditCard from '../../components/CardEdit'
 
 function Matter() {
   const { id } = useParams()
@@ -21,8 +22,10 @@ function Matter() {
   const [loading, setLoading] = useState(true);
   const [dataMatter, setDataMatter] = useState([]);
   const [dataCards, setDataCards] = useState([]);
+  const [cardData, setCardData] = useState([])
   const [openEditMatter, setOpenEditMatter] = useState(false)
   const [newCard, setNewCard] = useState(false)
+  const [editCard, setEditCard] = useState(false)
   const [popupData, setPopupData] = useState(null);
 
   const fetchMatter = async () => {
@@ -101,18 +104,21 @@ function Matter() {
 
             ) : dataCards.length !== 0 ? (
               <Container.Cards>
-                {dataCards.map(item => (
-                  <Container.Card key={item.id}>
+                {dataCards.map(cardItem => (
+                  <Container.Card key={cardItem.id} onClick={() => setResponseCard(true)}>
                     <Container.Text>
-                      {limiterCaracteres(item.question, 55)}
+                      {limiterCaracteres(cardItem.question, 55)}
                     </Container.Text>
                     <div className='nav-card'>
                       <Container.Tags>
                         <Container.Tag>
-                          {checkDifficulty(item.initial_difficulty)}
+                          {checkDifficulty(cardItem.initial_difficulty)}
                         </Container.Tag>
                       </Container.Tags>
-                      <Icon.Edit />
+                      <Icon.Edit onClick={() => {
+                        setEditCard(true);
+                        setCardData(cardItem);
+                      }} />
                     </div>
                   </Container.Card>
                 ))}
@@ -143,7 +149,13 @@ function Matter() {
           userData={dataMatter}
           sendDataToParent={receiveDataFromCards}
         />
-
+        <EditCard
+          isOpen={editCard}
+          setEditCard={() => setEditCard(!editCard)}
+          matterData={dataMatter}
+          cardData={cardData}
+          sendDataToParent={receiveDataFromCards}
+        />
         <PopupWrapper popupData={popupData} setPopupData={setPopupData} />
       </main>
     </>

@@ -149,3 +149,19 @@ export const showCards = async (email, id_matter) => {
         handleApiError(error);
     }
 }
+
+export const updateCard = async (email, idCard, question, answers, initialDifficulty) => {
+    try {
+        const response = await api.put(`/card/${email}/${idCard}`, {
+            question, answers, initialDifficulty
+        })
+
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(`Erro de servidor: Status ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        handleApiError(error);
+    }
+}

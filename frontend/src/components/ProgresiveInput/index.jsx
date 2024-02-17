@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '../Icons/'
 import './style.scss'
 
-function ProgresiveInput({ legend, transmitValue }) {
+function ProgresiveInput({ legend, transmitValue, arrayResponse }) {
   const initialResponse = [
     { id: 1, text: '', correctResponse: false },
     { id: 2, text: '', correctResponse: false },
   ]
   const [inputs, setInputs] = useState(initialResponse)
+
+  useEffect(() => {
+    if (arrayResponse) {
+      setInputs(arrayResponse)
+    }
+  }, [arrayResponse])
 
   const addResponse = () => {
     setInputs(prevResponse => {
